@@ -2,23 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'model/transaction.dart';
 
-class TransactionsList extends StatefulWidget {
-  const TransactionsList({super.key});
 
-  @override
-  State<TransactionsList> createState() => _TransactionsListState();
-}
 
-class _TransactionsListState extends State<TransactionsList> {
-    final List<Transaction> _userTransaction = [
-    Transaction(id: 'T1', title: 'Shirt', amount: 3500, date: DateTime.now()),
-    Transaction(id: 'T2', title: 'Jeans', amount: 5000, date: DateTime.now()),
-    Transaction(id: 'T3', title: 'Shoes', amount: 18000, date: DateTime.now()),
-  ];
+class TransactionList extends StatelessWidget {
+   final List<Transaction> transactions;
+   const TransactionList(this.transactions, {super.key});
+  
   @override
   Widget build(BuildContext context) {
     return Column(
-            children: _userTransaction.map((e) {
+            children: transactions.map((e) {
               final formattedDate = DateFormat.yMMMMd()
                   .format(e.date); // format date as 'Month Day, Year'
 

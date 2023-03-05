@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
+
 class NewTransaction extends StatelessWidget {
-  NewTransaction({super.key});
   final titleController = TextEditingController();
   final amountController = TextEditingController();
+  final Function addTx;
+  NewTransaction(this.addTx,{super.key});
+
+    // Hide the keyboard
+
 
   @override
   Widget build(BuildContext context) {
+    
     return Card(
         elevation: 5,
         margin: const EdgeInsets.only(bottom: 20),
@@ -24,10 +30,11 @@ class NewTransaction extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Amount'),
                 controller: amountController,
               ),
-              TextButton(
+              OutlinedButton(
                 style: TextButton.styleFrom(foregroundColor: Colors.purple),
                 onPressed: () {
-                  print(titleController.text);
+                  addTx(titleController.text,
+                  double.parse(amountController.text));
                 },
                 child: const Text('Add Transaction'),
               ),
