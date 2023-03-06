@@ -11,14 +11,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        return GestureDetector(
+    return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: MaterialApp(
-        title: 'Transactions App',
+        title: 'Personal Expenses',
         theme: ThemeData(
-          primarySwatch: Colors.purple,
+          primarySwatch: Colors
+              .purple, //sets the theme for the app, the widgets will inherit shades of primary swatch
+          colorScheme: const ColorScheme(
+            primary: Colors.purple,
+            secondary: Colors.amber,
+            surface: Colors.white,
+            background: Colors.grey,
+            error: Colors.redAccent,
+            onPrimary: Colors.white,
+            onSecondary: Colors.white,
+            onSurface: Colors.black,
+            onBackground: Colors.black,
+            onError: Colors.white,
+            brightness: Brightness.light,
+          ),
+          fontFamily: 'Quicksand',
+          textTheme: const TextTheme( // sets theme for different texts
+            displayLarge:
+            TextStyle(fontSize: 24.0, color: Colors.white),
+            titleLarge: TextStyle(fontSize: 24.0, fontFamily: 'OpenSans' ),
+            bodyMedium: TextStyle(fontSize: 20.0, fontFamily: 'OpenSans'),
+            bodySmall: TextStyle(fontSize: 14.0, color: Color.fromARGB(255, 114, 114, 114)), 
+          ),
         ),
         home: const MyHomePage(),
       ),
@@ -34,7 +56,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-   final List<Transaction> _userTransaction = [
+  final List<Transaction> _userTransaction = [
     Transaction(id: 'T1', title: 'Shirt', amount: 3500, date: DateTime.now()),
     Transaction(id: 'T2', title: 'Jeans', amount: 5000, date: DateTime.now()),
     Transaction(id: 'T3', title: 'Shoes', amount: 18000, date: DateTime.now()),
@@ -51,29 +73,39 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _startAddNewTransaction(BuildContext context){ ///takes two arguments context and builder (context of which we want it to render when button is pressed)
-    showModalBottomSheet(context: context, builder: (_){ //builder is a function that returns the widget we need to be inside modal bottom sheet
-      return NewTransaction(_addNewTransaction);
-    });
-
+  void _startAddNewTransaction(BuildContext context) {
+    ///takes two arguments context and builder (context of which we want it to render when button is pressed)
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          //builder is a function that returns the widget we need to be inside modal bottom sheet
+          return NewTransaction(_addNewTransaction);
+        });
   }
+
   @override
   Widget build(BuildContext context) {
-            return GestureDetector(
+    return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-    child: Scaffold(
-      appBar: AppBar(
-        title: const Text('Transactions App'),
-        actions:<Widget>[
-          IconButton(icon: const Icon(Icons.add), onPressed: () {_startAddNewTransaction(context);})
-        ],
-      ),
-      body: Column(
+      child: Scaffold(
+        appBar: AppBar(
+          title:  Text('Personal Expenses',
+          style: Theme.of(context).textTheme.displayLarge,  //copy theme from textTheme
+          ),
+          actions: <Widget>[
+            IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  _startAddNewTransaction(context);
+                })
+          ],
+        ),
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children:  <Widget>[
+          children: <Widget>[
             // ignore: avoid_unnecessary_containers
             // Container(
             //   margin: const EdgeInsets.only(bottom: 5),
@@ -95,10 +127,15 @@ class _MyHomePageState extends State<MyHomePage> {
             //     ),
             //   ),
             // ),
-             Expanded(child: TransactionList(_userTransaction))
+            Expanded(child: TransactionList(_userTransaction))
           ],
         ),
-        floatingActionButton: FloatingActionButton(child: Icon(Icons.add),onPressed: (){_startAddNewTransaction(context);},),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            _startAddNewTransaction(context);
+          },
+        ),
       ),
     );
   }

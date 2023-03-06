@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'model/transaction.dart';
+import 'package:string_formate/string_extension.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -19,48 +20,48 @@ class TransactionList extends StatelessWidget {
             }
             final formattedDate = DateFormat.yMMMMd().format(
                 transactions[index].date); // format date as 'Month Day, Year'
-            final backgroundColor = index % 2 == 0?Colors.white:  const Color.fromRGBO(211, 211, 211, 0.4);
+            final backgroundColor = index % 2 == 0
+                ? Colors.white
+                : const Color.fromRGBO(211, 211, 211, 0.4);
             return Card(
-              margin: const EdgeInsets.only(bottom:15),
+                margin: const EdgeInsets.only(bottom: 15),
                 child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: backgroundColor
-              ),
-              child: Row(
-                children: <Widget>[
-                  // ignore: avoid_unnecessary_containers
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 15),
-                    decoration: BoxDecoration(
+                  decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: const Color.fromRGBO(215, 196, 158, 1),
-                        width: 2,
-                      ),
-                    ),
-                    child: Text(
-                      'PKR ${transactions[index].amount.toString()}',
-                      style: const TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                      color: backgroundColor),
+                  child: Row(
                     children: <Widget>[
-                      Text(
-                        transactions[index].title,
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500),
+                      // ignore: avoid_unnecessary_containers
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Theme.of(context).primaryColorDark,
+                            width: 2,
+                          ),
+                        ),
+                        child: Text(
+                          'PKR ${transactions[index].amount.toStringAsFixed(0)}',
+                          style: Theme.of(context).textTheme.bodyMedium, //copy theme from textTheme
+                        ),
                       ),
-                      Text(formattedDate)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            transactions[index].title.capitalize(),
+                            style: Theme.of(context).textTheme.titleLarge, //copy theme from textTheme
+                          ),
+                          Text(formattedDate,
+                          style: Theme.of(context).textTheme.bodySmall) //copy theme from textTheme
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            ));
+                  ),
+                ));
           },
         ));
   }
