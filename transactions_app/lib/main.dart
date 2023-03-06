@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
               .purple, //sets the theme for the app, the widgets will inherit shades of primary swatch
           colorScheme: const ColorScheme(
             primary: Colors.purple,
-            secondary: Colors.amber,
+            secondary: Colors.amberAccent,
             surface: Colors.white,
             background: Colors.grey,
             error: Colors.redAccent,
@@ -34,12 +34,15 @@ class MyApp extends StatelessWidget {
             brightness: Brightness.light,
           ),
           fontFamily: 'Quicksand',
-          textTheme: const TextTheme( // sets theme for different texts
-            displayLarge:
-            TextStyle(fontSize: 24.0, color: Colors.white),
-            titleLarge: TextStyle(fontSize: 24.0, fontFamily: 'OpenSans' ),
+          textTheme: const TextTheme(
+            titleMedium: TextStyle(
+                fontSize: 15.0,
+                color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold, fontFamily: 'OpenSans'), // sets theme for different texts
+            displayLarge: TextStyle(fontSize: 24.0, color: Colors.white),
+            titleLarge: TextStyle(fontSize: 24.0, fontFamily: 'OpenSans'),
             bodyMedium: TextStyle(fontSize: 20.0, fontFamily: 'OpenSans'),
-            bodySmall: TextStyle(fontSize: 14.0, color: Color.fromARGB(255, 114, 114, 114)), 
+            bodySmall: TextStyle(
+                fontSize: 14.0, color: Color.fromARGB(255, 114, 114, 114)),
           ),
         ),
         home: const MyHomePage(),
@@ -87,8 +90,11 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title:  Text('Personal Expenses',
-          style: Theme.of(context).textTheme.displayLarge,  //copy theme from textTheme
+          title: Text(
+            'Personal Expenses',
+            style: Theme.of(context)
+                .textTheme
+                .displayLarge, //copy theme from textTheme
           ),
           actions: <Widget>[
             IconButton(
@@ -102,27 +108,26 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // ignore: avoid_unnecessary_containers
-            // Container(
-            //   margin: const EdgeInsets.only(bottom: 5),
-            //   child: const Card(
-            //     elevation: 5,
-            //     color: Color.fromRGBO(215, 196, 158, 1),
-            //     child: Padding(
-            //       padding: EdgeInsets.all(2.0),
-            //       child: Center(
-            //         child: Padding(
-            //           padding: EdgeInsets.all(2),
-            //           child: Text(
-            //             "Transactions",
-            //             style: TextStyle(
-            //                 fontSize: 20.0, fontWeight: FontWeight.bold),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 5),
+              child: const Card(
+                elevation: 5,
+                color: Color.fromRGBO(215, 196, 158, 1),
+                child: Padding(
+                  padding: EdgeInsets.all(2.0),
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(2),
+                      child: Text(
+                        "Chart",
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             Expanded(child: TransactionList(_userTransaction))
           ],
         ),

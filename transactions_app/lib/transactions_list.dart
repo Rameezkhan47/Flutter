@@ -19,7 +19,8 @@ class TransactionList extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                   Text("No transactions yet!", style: Theme.of(context).textTheme.titleLarge),
+                  Text("No transactions yet!",
+                      style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(
                     height: 50,
                   ),
@@ -38,50 +39,35 @@ class TransactionList extends StatelessWidget {
                           .date); // format date as 'Month Day, Year'
                   final backgroundColor = index % 2 == 0
                       ? Colors.white
-                      : const Color.fromRGBO(211, 211, 211, 0.4);
+                      : Color.fromARGB(255, 240, 240, 240);
                   return Card(
                       margin: const EdgeInsets.only(bottom: 15),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: backgroundColor),
-                        child: Row(
-                          children: <Widget>[
-                            // ignore: avoid_unnecessary_containers
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              margin: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Theme.of(context).primaryColorDark,
-                                  width: 2,
-                                ),
-                              ),
+                      elevation: 5,
+                      color: backgroundColor,
+                      child: ListTile(
+                        //aesthetic widget provided by material library for rendering list
+                        leading: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Theme.of(context).colorScheme.secondary,
+                          
+                          child: Padding(
+                            padding: EdgeInsets.all(6),
+                            child: FittedBox(
                               child: Text(
                                 'PKR ${transactions[index].amount.toStringAsFixed(0)}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium, //copy theme from textTheme
+                                style: Theme.of(context).textTheme.titleMedium, 
+                                
                               ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  transactions[index].title.capitalize(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge, //copy theme from textTheme
-                                ),
-                                Text(formattedDate,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall) //copy theme from textTheme
-                              ],
-                            )
-                          ],
+                          ),
+                        ),
+                        title: Text(
+                          transactions[index].title,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        subtitle: Text(
+                          DateFormat.yMMMd().format(transactions[index].date),
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ));
                 },
