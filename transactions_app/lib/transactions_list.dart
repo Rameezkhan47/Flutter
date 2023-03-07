@@ -40,7 +40,7 @@ class TransactionList extends StatelessWidget {
 // format date as 'Month Day, Year'
                   final backgroundColor = index % 2 == 0
                       ? Colors.white
-                      : Color.fromARGB(255, 240, 240, 240);
+                      : const Color.fromARGB(255, 240, 240, 240);
                   final backgroundColorCircle = index % 2 == 0
                       ? Theme.of(context).colorScheme.primary
                       : Theme.of(context).colorScheme.secondary;
@@ -55,7 +55,7 @@ class TransactionList extends StatelessWidget {
                             radius: 30,
                             backgroundColor: backgroundColorCircle,
                             child: Padding(
-                              padding: EdgeInsets.all(6),
+                              padding: const EdgeInsets.all(6),
                               child: FittedBox(
                                 child: Text(
                                   'PKR ${transactions[index].amount.toStringAsFixed(0)}',
@@ -73,11 +73,26 @@ class TransactionList extends StatelessWidget {
                             DateFormat.yMMMd().format(transactions[index].date),
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
-                          trailing: IconButton(
-                              icon: const Icon(Icons.delete_rounded),
-                              color: Theme.of(context).colorScheme.background,
-                              onPressed: () =>
-                                  deleteTransaction(transactions[index].id))));
+                          trailing: MediaQuery.of(context).size.width > 460
+                              ? TextButton.icon(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                  ),
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                    Theme.of(context).colorScheme.error,
+                                  )),
+                                  label: const Text('Delete'),
+                                  onPressed: () =>
+                                      deleteTransaction(transactions[index].id),
+                                )
+                              : IconButton(
+                                  icon: const Icon(Icons.delete_rounded),
+                                  color:
+                                      Theme.of(context).colorScheme.background,
+                                  onPressed: () => deleteTransaction(
+                                      transactions[index].id))));
                 },
               ));
   }
