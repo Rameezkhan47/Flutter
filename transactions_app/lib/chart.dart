@@ -9,12 +9,9 @@ class Chart extends StatelessWidget {
 
   Chart(this.recentTransactions);
 
- List get groupedTransactionValues {
-    final today = DateTime.now();
-    final daysSinceSunday = today.weekday%7;
-    final sunday = today.subtract(Duration(days: daysSinceSunday));
+  List get groupedTransactionValues {
     return List.generate(7, (index) {
-      final weekDay = sunday.subtract(Duration(days: index));
+      final weekDay = DateTime.now().subtract(Duration(days: index));
       var totalSum = 0.0;
 
       for (var i = 0; i < recentTransactions.length; i++) {
@@ -41,6 +38,7 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.only(top: 20, bottom: 20),
       elevation: 6,
       child: Padding(
         padding: EdgeInsets.all(10),
@@ -50,7 +48,9 @@ class Chart extends StatelessWidget {
               child: ChartBar(
                 data['day'],
                 data['amount'],
-               (data['amount'] as double) / totalSpending,
+                totalSpending == 0.0
+                    ? 0.0
+                    : (data['amount'] as double) / totalSpending,
               ),
             );
           }).toList(),

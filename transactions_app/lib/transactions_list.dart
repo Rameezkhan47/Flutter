@@ -5,7 +5,8 @@ import 'package:string_formate/string_extension.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  const TransactionList(this.transactions, {super.key});
+  final Function deleteTransaction;
+  const TransactionList(this.transactions, this.deleteTransaction, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class TransactionList extends StatelessWidget {
 
                   return Card(
                       margin: const EdgeInsets.only(bottom: 15),
-                      elevation: 5,
+                      elevation: 2,
                       color: backgroundColor,
                       child: ListTile(
                         //aesthetic widget provided by material library for rendering list
@@ -69,6 +70,11 @@ class TransactionList extends StatelessWidget {
                           DateFormat.yMMMd().format(transactions[index].date),
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete_rounded),
+                          color: Theme.of(context).colorScheme.background,
+                          onPressed: ()=>deleteTransaction(transactions[index].id)
+                        )
                       ));
                 },
               ));

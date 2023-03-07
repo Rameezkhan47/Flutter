@@ -82,6 +82,11 @@ class _MyHomePageState extends State<MyHomePage> {
       _userTransaction.add(newTx);
     });
   }
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransaction.removeWhere((transaction)=>transaction.id==id);
+    });
+  }
 
   void _startAddNewTransaction(BuildContext context) {
     ///takes two arguments context and builder (context of which we want it to render when button is pressed)
@@ -121,21 +126,17 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(bottom: 5),
-              child:  Card(
-                elevation: 5,
-                color: Theme.of(context).colorScheme.secondary,
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: Chart(_recentTransactions),
-                    ),
+              child:  Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Chart(_recentTransactions),
                   ),
                 ),
               ),
             ),
-            Expanded(child: TransactionList(_userTransaction))
+            Expanded(child: TransactionList(_userTransaction, _deleteTransaction))
           ],
         ),
         floatingActionButton: FloatingActionButton(
