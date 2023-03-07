@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './new_transaction.dart';
 import './transactions_list.dart';
 import './model/transaction.dart';
+import './chart.dart';
 
 void main() => runApp(const MyApp());
 
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           textTheme: const TextTheme(
             titleMedium: TextStyle(
                 fontSize: 15.0,
-                color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold, fontFamily: 'OpenSans'), // sets theme for different texts
+                color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w500, fontFamily: 'Quicksand'), // sets theme for different texts
             displayLarge: TextStyle(fontSize: 24.0, color: Colors.white),
             titleLarge: TextStyle(fontSize: 24.0, fontFamily: 'OpenSans'),
             bodyMedium: TextStyle(fontSize: 20.0, fontFamily: 'OpenSans'),
@@ -59,7 +60,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late final List<Transaction> _userTransaction = [];
+   final List<Transaction> _userTransaction = [];
+    List<Transaction> get _recentTransactions {
+    return _userTransaction.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          const Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+
 
   void _addNewTransaction(String title, double amount, DateTime chosenDate) {
     final newTx = Transaction(
@@ -110,19 +121,15 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(bottom: 5),
-              child: const Card(
+              child:  Card(
                 elevation: 5,
-                color: Color.fromRGBO(215, 196, 158, 1),
+                color: Theme.of(context).colorScheme.secondary,
                 child: Padding(
-                  padding: EdgeInsets.all(2.0),
+                  padding: const EdgeInsets.all(2.0),
                   child: Center(
                     child: Padding(
-                      padding: EdgeInsets.all(2),
-                      child: Text(
-                        "Chart",
-                        style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold),
-                      ),
+                      padding: const EdgeInsets.all(2),
+                      child: Chart(_recentTransactions),
                     ),
                   ),
                 ),

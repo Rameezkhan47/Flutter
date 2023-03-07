@@ -34,12 +34,14 @@ class TransactionList extends StatelessWidget {
                   if (index >= transactions.length) {
                     return null; // or return a placeholder widget
                   }
-                  final formattedDate = DateFormat.yMMMMd().format(
-                      transactions[index]
-                          .date); // format date as 'Month Day, Year'
+// format date as 'Month Day, Year'
                   final backgroundColor = index % 2 == 0
                       ? Colors.white
                       : Color.fromARGB(255, 240, 240, 240);
+                  final backgroundColorCircle = index % 2 == 0
+                      ? Theme.of(context).colorScheme.primary
+                      :Theme.of(context).colorScheme.secondary;
+
                   return Card(
                       margin: const EdgeInsets.only(bottom: 15),
                       elevation: 5,
@@ -48,21 +50,19 @@ class TransactionList extends StatelessWidget {
                         //aesthetic widget provided by material library for rendering list
                         leading: CircleAvatar(
                           radius: 30,
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
-                          
+                          backgroundColor: backgroundColorCircle,
                           child: Padding(
                             padding: EdgeInsets.all(6),
                             child: FittedBox(
                               child: Text(
                                 'PKR ${transactions[index].amount.toStringAsFixed(0)}',
-                                style: Theme.of(context).textTheme.titleMedium, 
-                                
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
                           ),
                         ),
                         title: Text(
-                          transactions[index].title,
+                          transactions[index].title.capitalize(),
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         subtitle: Text(
