@@ -81,7 +81,7 @@ class TransactionList extends StatelessWidget {
                                   style: ButtonStyle(
                                       foregroundColor:
                                           MaterialStateProperty.all<Color>(
-                                    Theme.of(context).colorScheme.error,
+                                    Theme.of(context).colorScheme.background,
                                   )),
                                   label: const Text('Delete'),
                                   onPressed: () =>
