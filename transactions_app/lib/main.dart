@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import './new_transaction.dart';
 import './transactions_list.dart';
 import './model/transaction.dart';
@@ -110,21 +112,34 @@ class _MyHomePageState extends State<MyHomePage> {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    final appBar = AppBar(
-      title: Text(
-        'Personal Expenses',
-        style: Theme.of(context)
-            .textTheme
-            .displayLarge, //copy theme from textTheme
-      ),
-      actions: <Widget>[
-        IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              _startAddNewTransaction(context);
-            })
-      ],
-    );
+
+    final PreferredSizeWidget appBar = Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: const Text(
+              'Personal Expenses',
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: const Icon(CupertinoIcons.add),
+                  onTap: () => _startAddNewTransaction(context),
+                ),
+              ],
+            ),
+          ) as PreferredSizeWidget // cast the widget as PreferredSizeWidget
+        : AppBar(
+            title: const Text(
+              'Personal Expenses',
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () => _startAddNewTransaction(context),
+              ),
+            ],
+          );
+
     final transactionListWidget = Container(
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
@@ -132,67 +147,78 @@ class _MyHomePageState extends State<MyHomePage> {
           0.7,
       child: TransactionList(_userTransaction, _deleteTransaction),
     );
+    final pageBody = SafeArea(
+      child: //calculates notch area and dont display there
+          Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          if (isLandscape)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                 Text("Show Chart", style: Theme.of(context).textTheme.titleLarge,),
+                  Switch.adaptive(
+                    activeColor: Theme.of(context).primaryColor,
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+              ],
+            ),
+          if (!isLandscape)
+            Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  .3,
+              margin: const EdgeInsets.only(bottom: 5),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Chart(_recentTransactions),
+                  ),
+                ),
+              ),
+            ),
+          if (!isLandscape) Expanded(child: transactionListWidget),
+          if (isLandscape)
+            _showChart
+                ? SizedBox(
+                    height: (mediaQuery.size.height -
+                            appBar.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        .7,
+                    child: Chart(_recentTransactions),
+                  )
+                : transactionListWidget
+        ],
+      ),
+    );
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
-        appBar: appBar,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Show Chart"),
-                  Switch(
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      })
-                ],
+      child: Platform.isIOS
+          ? CupertinoPageScaffold(
+              navigationBar: appBar as ObstructingPreferredSizeWidget?,
+              child: pageBody,
+            )
+          : Scaffold(
+              appBar: appBar,
+              body: pageBody,
+              floatingActionButton: FloatingActionButton(
+                child: const Icon(Icons.add),
+                onPressed: () {
+                  _startAddNewTransaction(context);
+                },
               ),
-            if (!isLandscape)
-              Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    .3,
-                margin: const EdgeInsets.only(bottom: 5),
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: Chart(_recentTransactions),
-                    ),
-                  ),
-                ),
-              ),
-            if (!isLandscape) Expanded(child: transactionListWidget),
-            if (isLandscape)
-              _showChart
-                  ? SizedBox(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          .7,
-                      child: Chart(_recentTransactions),
-                    )
-                  : transactionListWidget
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () {
-            _startAddNewTransaction(context);
-          },
-        ),
-      ),
+            ),
     );
   }
 }

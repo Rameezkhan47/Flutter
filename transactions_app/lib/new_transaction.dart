@@ -1,7 +1,9 @@
 // ignore_for_file: unnecessary_null_comparison
-
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import './adaptive_flat_button.dart';
 
 class NewTransaction extends StatefulWidget {
   //converted to stateful widget to remove a bug where as soon as the user
@@ -32,14 +34,34 @@ class _NewTransactionState extends State<NewTransaction> {
         _selectedDate); //enables us to access the property which is in different class NewTransaction
     Navigator.of(context).pop(); //closes modal upon submission
   }
-
-  void _datePicker() {
+void _datePicker() {
+  if (Theme.of(context).platform == TargetPlatform.iOS) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return SizedBox(
+          height: 250,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
+            initialDateTime: DateTime.now(),
+            minimumDate: DateTime(2022),
+            maximumDate: DateTime.now(),
+            onDateTimeChanged: (dateTime) {
+              setState(() {
+                _selectedDate = dateTime;
+              });
+            },
+          ),
+        );
+      },
+    );
+  } else {
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2022),
-            lastDate: DateTime.now())
-        .then((pickedDate) {
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
       if (pickedDate == null) {
         return;
       }
@@ -48,19 +70,20 @@ class _NewTransactionState extends State<NewTransaction> {
       });
     });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Card(
           elevation: 5,
-          margin: const EdgeInsets.only(bottom: 20),
           child: Container(
             padding: EdgeInsets.only(
               top: 10,
               left: 10,
               right: 10,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -86,8 +109,8 @@ class _NewTransactionState extends State<NewTransaction> {
                           : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}',
                       style: Theme.of(context).textTheme.titleSmall,
                     )),
-                    TextButton(
-                        onPressed: _datePicker, child: const Text('Choose Date'))
+                    AdaptiveFlatButton('Choose Date', _datePicker)
+
                   ]),
                 ),
                 OutlinedButton(
