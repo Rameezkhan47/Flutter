@@ -46,52 +46,60 @@ class _NewTransactionState extends State<NewTransaction> {
       setState(() {
         _selectedDate = pickedDate;
       });
-    }).catchError((error) {
-      print(error);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 5,
-        margin: const EdgeInsets.only(bottom: 20),
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextField(
-                decoration: const InputDecoration(labelText: 'Title'),
-                controller: titleController,
-                onSubmitted: (_) => submitData(),
-              ),
-              TextField(
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Amount'),
-                controller: amountController,
-                onSubmitted: (_) => submitData(),
-              ),
-              SizedBox(
-                height: 70,
-                child: Row(children: <Widget> [
-                  Expanded(
-                      child: Text(_selectedDate == null
+    return SingleChildScrollView(
+      child: Card(
+          elevation: 5,
+          margin: const EdgeInsets.only(bottom: 20),
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(labelText: 'Title'),
+                  controller: titleController,
+                  onSubmitted: (_) => submitData(),
+                ),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: 'Amount'),
+                  controller: amountController,
+                  onSubmitted: (_) => submitData(),
+                ),
+                SizedBox(
+                  height: 70,
+                  child: Row(children: <Widget>[
+                    Expanded(
+                        child: Text(
+                      _selectedDate == null
                           ? 'No Date Chosen!'
                           : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}',
-                          style: Theme.of(context).textTheme.titleSmall,)),
-                        TextButton(onPressed: _datePicker, child:  const Text('Choose Date'))
-                ]),
-              ),
-              OutlinedButton(
-                style: TextButton.styleFrom(foregroundColor: Colors.purple),
-                onPressed: () {
-                  submitData();
-                },
-                child: const Text('Add Transaction'),
-              ),
-            ],
-          ),
-        ));
+                      style: Theme.of(context).textTheme.titleSmall,
+                    )),
+                    TextButton(
+                        onPressed: _datePicker, child: const Text('Choose Date'))
+                  ]),
+                ),
+                OutlinedButton(
+                  style: TextButton.styleFrom(foregroundColor: Colors.purple),
+                  onPressed: () {
+                    submitData();
+                  },
+                  child: const Text('Add Transaction'),
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }

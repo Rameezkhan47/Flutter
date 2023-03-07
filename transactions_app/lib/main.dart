@@ -38,7 +38,9 @@ class MyApp extends StatelessWidget {
           textTheme: const TextTheme(
             titleMedium: TextStyle(
                 fontSize: 15.0,
-                color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w500, fontFamily: 'Quicksand'), // sets theme for different texts
+                color: Color.fromARGB(255, 0, 0, 0),
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Quicksand'), // sets theme for different texts
             displayLarge: TextStyle(fontSize: 24.0, color: Colors.white),
             titleLarge: TextStyle(fontSize: 24.0, fontFamily: 'OpenSans'),
             bodyMedium: TextStyle(fontSize: 20.0, fontFamily: 'OpenSans'),
@@ -60,8 +62,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-   final List<Transaction> _userTransaction = [];
-    List<Transaction> get _recentTransactions {
+  bool _showChart = false;
+  final List<Transaction> _userTransaction = [];
+  List<Transaction> get _recentTransactions {
     return _userTransaction.where((tx) {
       return tx.date.isAfter(
         DateTime.now().subtract(
@@ -70,7 +73,6 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }).toList();
   }
-
 
   void _addNewTransaction(String title, double amount, DateTime chosenDate) {
     final newTx = Transaction(
@@ -82,9 +84,10 @@ class _MyHomePageState extends State<MyHomePage> {
       _userTransaction.add(newTx);
     });
   }
+
   void _deleteTransaction(String id) {
     setState(() {
-      _userTransaction.removeWhere((transaction)=>transaction.id==id);
+      _userTransaction.removeWhere((transaction) => transaction.id == id);
     });
   }
 
@@ -94,49 +97,93 @@ class _MyHomePageState extends State<MyHomePage> {
         context: context,
         builder: (_) {
           //builder is a function that returns the widget we need to be inside modal bottom sheet
-          return NewTransaction(_addNewTransaction);
+          return GestureDetector(
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+            child: NewTransaction(_addNewTransaction),
+          );
         });
   }
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final appBar = AppBar(
+      title: Text(
+        'Personal Expenses',
+        style: Theme.of(context)
+            .textTheme
+            .displayLarge, //copy theme from textTheme
+      ),
+      actions: <Widget>[
+        IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              _startAddNewTransaction(context);
+            })
+      ],
+    );
+    final transactionListWidget = Container(
+      height: (mediaQuery.size.height -
+              appBar.preferredSize.height -
+              mediaQuery.padding.top) *
+          0.7,
+      child: TransactionList(_userTransaction, _deleteTransaction),
+    );
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Personal Expenses',
-            style: Theme.of(context)
-                .textTheme
-                .displayLarge, //copy theme from textTheme
-          ),
-          actions: <Widget>[
-            IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  _startAddNewTransaction(context);
-                })
-          ],
-        ),
+        appBar: appBar,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(bottom: 5),
-              child:  Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Chart(_recentTransactions),
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Show Chart"),
+                  Switch(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      })
+                ],
+              ),
+            if (!isLandscape)
+              Container(
+                height: (mediaQuery.size.height -
+                        appBar.preferredSize.height -
+                        mediaQuery.padding.top) *
+                    .3,
+                margin: const EdgeInsets.only(bottom: 5),
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: Chart(_recentTransactions),
+                    ),
                   ),
                 ),
               ),
-            ),
-            Expanded(child: TransactionList(_userTransaction, _deleteTransaction))
+            if (!isLandscape) Expanded(child: transactionListWidget),
+            if (isLandscape)
+              _showChart
+                  ? SizedBox(
+                      height: (mediaQuery.size.height -
+                              appBar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          .7,
+                      child: Chart(_recentTransactions),
+                    )
+                  : transactionListWidget
           ],
         ),
         floatingActionButton: FloatingActionButton(
