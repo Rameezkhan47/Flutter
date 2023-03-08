@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'model/transaction.dart';
-import 'package:string_formate/string_extension.dart';
+import 'transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -45,55 +44,14 @@ class TransactionList extends StatelessWidget {
                       ? Theme.of(context).colorScheme.primary
                       : Theme.of(context).colorScheme.secondary;
 
-                  return Card(
-                      margin: const EdgeInsets.only(bottom: 15),
-                      elevation: 2,
-                      color: backgroundColor,
-                      child: ListTile(
-                          //aesthetic widget provided by material library for rendering list
-                          leading: CircleAvatar(
-                            radius: 30,
-                            backgroundColor: backgroundColorCircle,
-                            child: Padding(
-                              padding: const EdgeInsets.all(6),
-                              child: FittedBox(
-                                child: Text(
-                                  'PKR ${transactions[index].amount.toStringAsFixed(0)}',
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            transactions[index].title.capitalize(),
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          subtitle: Text(
-                            DateFormat.yMMMd().format(transactions[index].date),
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                          trailing: MediaQuery.of(context).size.width > 460
-                              ? TextButton.icon(
-                                  icon: const Icon(
-                                    Icons.delete,
-                                  ),
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                    Theme.of(context).colorScheme.background,
-                                  )),
-                                  label: const Text('Delete'),
-                                  onPressed: () =>
-                                      deleteTransaction(transactions[index].id),
-                                )
-                              : IconButton(
-                                  icon: const Icon(Icons.delete_rounded),
-                                  color:
-                                      Theme.of(context).colorScheme.background,
-                                  onPressed: () => deleteTransaction(
-                                      transactions[index].id))));
+                  return TransactionItem(
+                      backgroundColor: backgroundColor,
+                      backgroundColorCircle: backgroundColorCircle,
+                      transaction: transactions[index],
+                      deleteTransaction: deleteTransaction);
                 },
               ));
   }
 }
+
+

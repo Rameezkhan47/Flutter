@@ -92,8 +92,59 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Widget _buildLandscapeContent() {}
-  Widget _buildPortrainContent() {}
+  List <Widget> _buildLandscapeContent(MediaQueryData mediaQuery, PreferredSizeWidget appBar, Widget transactionListWidget)
+  {
+    return[
+    Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Show Chart",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Switch.adaptive(
+                  activeColor: Theme.of(context).primaryColor,
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  },
+                ),
+              ],
+            ),
+                        _showChart
+                ? SizedBox(
+                    height: (mediaQuery.size.height -
+                            appBar.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        .7,
+                    child: Chart(_recentTransactions),
+                  )
+                : transactionListWidget
+            ];
+            
+  }
+  List<Widget> _buildPortraitContent(MediaQueryData mediaQuery, PreferredSizeWidget appBar, Widget transactionListWidget) {
+    return [Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  .3,
+              margin: const EdgeInsets.only(bottom: 5),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Chart(_recentTransactions),
+                  ),
+                ),
+              ),
+            ),
+
+            Expanded(child: transactionListWidget)];
+  }
 
   void _startAddNewTransaction(BuildContext context) {
     ///takes two arguments context and builder (context of which we want it to render when button is pressed)
@@ -155,53 +206,12 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Show Chart",
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                Switch.adaptive(
-                  activeColor: Theme.of(context).primaryColor,
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                ),
-              ],
-            ),
-          if (!isLandscape)
-            Container(
-              height: (mediaQuery.size.height -
-                      appBar.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  .3,
-              margin: const EdgeInsets.only(bottom: 5),
-              child: Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Chart(_recentTransactions),
-                  ),
-                ),
-              ),
-            ),
-          if (!isLandscape) Expanded(child: transactionListWidget),
-          if (isLandscape)
-            _showChart
-                ? SizedBox(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        .7,
-                    child: Chart(_recentTransactions),
-                  )
-                : transactionListWidget
+          if (isLandscape) ..._buildLandscapeContent(mediaQuery, appBar, transactionListWidget),
+
+          if (!isLandscape) ..._buildPortraitContent(mediaQuery, appBar, transactionListWidget),
+            
+
+
         ],
       ),
     );
