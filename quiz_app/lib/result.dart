@@ -44,7 +44,7 @@ class Result extends StatelessWidget {
           
           onPressed: resetHandler,
           style: ElevatedButton.styleFrom(
-              primary: Color.fromARGB(255, 27, 122, 14),
+              backgroundColor: const Color.fromARGB(255, 27, 122, 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),

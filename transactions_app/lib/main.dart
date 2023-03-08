@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import './new_transaction.dart';
 import './transactions_list.dart';
 import './model/transaction.dart';
@@ -140,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           );
 
-    final transactionListWidget = Container(
+    final transactionListWidget = SizedBox(
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
               mediaQuery.padding.top) *
