@@ -92,6 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Widget _buildLandscapeContent() {}
+  Widget _buildPortrainContent() {}
+
   void _startAddNewTransaction(BuildContext context) {
     ///takes two arguments context and builder (context of which we want it to render when button is pressed)
     showModalBottomSheet(
@@ -156,16 +159,19 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Text("Show Chart", style: Theme.of(context).textTheme.titleLarge,),
-                  Switch.adaptive(
-                    activeColor: Theme.of(context).primaryColor,
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  ),
+                Text(
+                  "Show Chart",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Switch.adaptive(
+                  activeColor: Theme.of(context).primaryColor,
+                  value: _showChart,
+                  onChanged: (val) {
+                    setState(() {
+                      _showChart = val;
+                    });
+                  },
+                ),
               ],
             ),
           if (!isLandscape)
