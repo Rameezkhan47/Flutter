@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/widgets/screens/category_meals_screen.dart';
 
 import 'widgets/screens/categories_screen.dart';
 
@@ -42,7 +43,12 @@ class MyApp extends StatelessWidget {
                 fontSize: 12.0, color: Color.fromARGB(255, 114, 114, 114)),
           ),
         ),
-        home:  const CategoriesScreen(),
+        // home:  const CategoriesScreen(),
+        initialRoute: '/', //default route is by convention '/'
+        routes: {
+          '/': (ctx)=> const CategoriesScreen(),
+          CategoryMealsScreen.routeName: (ctx)=> const CategoryMealsScreen()
+        },
       ),
     );
   

@@ -13,17 +13,18 @@ class CategoryItem extends StatelessWidget {
       this.id, this.title, this.description, this.color, this.image,
       {super.key});
 
-  void selectCategory(BuildContext ctx) {
-    Navigator.of(ctx).push(CupertinoPageRoute(builder: (_) {
-      return const CategoryMealsScreen();
-    }));
+  void selectCategory(BuildContext ctx) { 
+    Navigator.of(ctx).pushNamed(CategoryMealsScreen.routeName, arguments: { //convenient for multiple page routes, allows us to send args with route name so no need for prop drilling
+      'id': id,
+      'title': title,
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => selectCategory(context),
-      splashColor: Theme.of(context).colorScheme.primary,
+      splashColor: Theme.of(context).colorScheme.background,
       borderRadius: BorderRadius.circular(15),
       child: Container(
         padding: const EdgeInsets.all(15),
