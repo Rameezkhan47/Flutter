@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import './screens//category_meals_screen.dart';
+import '../screens/category_meals_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;
@@ -17,6 +17,7 @@ class CategoryItem extends StatelessWidget {
     Navigator.of(ctx).pushNamed(CategoryMealsScreen.routeName, arguments: { //convenient for multiple page routes, allows us to send args with route name so no need for prop drilling
       'id': id,
       'title': title,
+
     });
   }
 

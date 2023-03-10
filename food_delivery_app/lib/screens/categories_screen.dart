@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../resturant_item.dart';
-import '../../dummy/dummy_data.dart';
-import '../category_item.dart';
-import '../../dummy/dummy_resturants.dart';
+import '../widgets/resturant_item.dart';
+import '/dummy/dummy_data.dart';
+import '/widgets/category_item.dart';
+import '/dummy/dummy_resturants.dart';
 import '../containers/order_review_container.dart';
 import '../containers/become_a_pro_container.dart';
 import '../sliders/daily_dealr_slider.dart';
@@ -31,7 +31,7 @@ class CategoriesScreen extends StatelessWidget {
                   mediaQuery.padding.top) *
               0.52,
           child: GridView(
-            physics: const NeverScrollableScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.all(15),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,

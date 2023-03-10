@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../image_item.dart';
-import '../../dummy/dummy_images_list.dart';
+import '../widgets/image_item.dart';
+import '../dummy/dummy_images_list.dart';
 
 
 class DailyDealsSlider extends StatelessWidget {

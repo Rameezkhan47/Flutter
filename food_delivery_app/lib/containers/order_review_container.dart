@@ -26,21 +26,24 @@ class OrderReviewContainer extends StatelessWidget {
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
               mediaQuery.padding.top) *
-          0.18,
+          0.20,
       child: Stack(
         children: [
           Row(
             children: [
-              Text(
-                'How was your order?',
-                style: Theme.of(context).textTheme.titleMedium,
+              Container(
+                width: 150,
+                child: Text(
+                  'How was your order?',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ),
               const SizedBox(
                   width: 20), // Add some spacing between text and image
             ],
           ),
           Positioned(
-              top: 25,
+              top: 45,
               child: Text(
                 'Delizia',
                 style: Theme.of(context).textTheme.bodySmall,
@@ -57,10 +60,11 @@ class OrderReviewContainer extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 0,
+            bottom: 6,
             left: 0,
             child: SizedBox(
-                width: 100,
+                width: 91,
+                height: 30,
                 child: ElevatedButton(
                   onPressed: () {
                     // code to execute when button is pressed
@@ -71,11 +75,11 @@ class OrderReviewContainer extends StatelessWidget {
                     shape:
                         MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(6.0),
                       ),
                     ),
                   ),
-                  child: const Text('Rate order'),
+                  child: const Text('Rate order', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Quicksand', fontSize: 11),),
                 )),
           ),
         ],
