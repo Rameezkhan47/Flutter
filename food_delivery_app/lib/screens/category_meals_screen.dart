@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/widgets/menu_item.dart';
-import '../dummy/dummy_data.dart';
-import '';
+import '../widgets/meal_item.dart';
+import '../dummy/sample_data.dart';
 
 
 
@@ -21,7 +20,7 @@ final categoryMeals = DUMMY_MEALS.where((element) {return
     return   Scaffold(
       appBar: AppBar(title:  Text(categoryTitle!)),
       body: ListView.builder(itemBuilder: (ctx, index){
-        return MealItem(title: categoryMeals[index].title, imageUrl: categoryMeals[index].imageUrl, affordability: categoryMeals[index].affordability, complexity: categoryMeals[index].complexity, duration: categoryMeals[index].duration);
+        return MealItem(id: categoryMeals[index].id,title: categoryMeals[index].title, imageUrl: categoryMeals[index].imageUrl, affordability: categoryMeals[index].affordability, complexity: categoryMeals[index].complexity, duration: categoryMeals[index].duration);
       }, itemCount: categoryMeals.length
       ),
     );

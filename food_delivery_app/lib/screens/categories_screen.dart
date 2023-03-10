@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/resturant_item.dart';
-import '/dummy/dummy_data.dart';
+import '../dummy/sample_data.dart';
 import '/widgets/category_item.dart';
 import '/dummy/dummy_resturants.dart';
 import '../containers/order_review_container.dart';
