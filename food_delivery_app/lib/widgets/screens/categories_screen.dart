@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'resturant_item.dart';
-import '../dummy/dummy_data.dart';
-import '../widgets/category_item.dart';
-import '../dummy/dummy_resturants.dart';
-import 'containers/order_review_container.dart';
-import 'containers/become_a_pro_container.dart';
-import 'sliders/daily_dealr_slider.dart';
-import 'containers/panda_rewards_container.dart';
+import '../resturant_item.dart';
+import '../../dummy/dummy_data.dart';
+import '../category_item.dart';
+import '../../dummy/dummy_resturants.dart';
+import '../containers/order_review_container.dart';
+import '../containers/become_a_pro_container.dart';
+import '../sliders/daily_dealr_slider.dart';
+import '../containers/panda_rewards_container.dart';
 
 
 class CategoriesScreen extends StatelessWidget {
