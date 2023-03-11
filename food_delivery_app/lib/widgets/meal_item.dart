@@ -9,16 +9,17 @@ class MealItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
-  
+  final Function removeItem;
 
-  const MealItem({super.key, 
-    required this.id,
-    required this.title,
-    required this.imageUrl,
-    required this.affordability,
-    required this.complexity,
-    required this.duration,
-  });
+  const MealItem(
+      {super.key,
+      required this.id,
+      required this.title,
+      required this.imageUrl,
+      required this.affordability,
+      required this.complexity,
+      required this.duration,
+      required this.removeItem});
 
   String get complexityText {
     switch (complexity) {
@@ -47,13 +48,19 @@ class MealItem extends StatelessWidget {
   }
 
   void selectMeal(BuildContext context) {
-    Navigator.of(context).pushNamed(MealDetailScreen.routeName , arguments: id);
+    Navigator.of(context)
+        .pushNamed(MealDetailScreen.routeName, arguments: id)
+        .then((result) {
+      if (result != null) {
+        removeItem(result);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>selectMeal(context),
+      onTap: () => selectMeal(context),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -81,7 +88,8 @@ class MealItem extends StatelessWidget {
                 child: Container(
                   width: 300,
                   color: Colors.black54,
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   child: Text(
                     title,
                     style: const TextStyle(fontSize: 26, color: Colors.white),
