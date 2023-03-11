@@ -5,12 +5,11 @@ import '../screens/category_meals_screen.dart';
 class CategoryItem extends StatelessWidget {
   final String id;
   final String title;
-  final Color color;
   final String image;
   final String description;
 
   const CategoryItem(
-      this.id, this.title, this.description, this.color, this.image,
+       this.id, this.title, this.description, this.image,
       {super.key});
 
   void selectCategory(BuildContext ctx) { 

@@ -8,7 +8,6 @@ import '../containers/become_a_pro_container.dart';
 import '../sliders/daily_dealr_slider.dart';
 import '../containers/panda_rewards_container.dart';
 
-
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
 
@@ -30,26 +29,21 @@ class CategoriesScreen extends StatelessWidget {
                   appBar.preferredSize.height -
                   mediaQuery.padding.top) *
               0.52,
-          child: GridView(
-            // physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(15),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              childAspectRatio: 8 / 5,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-            children: DUMMY_CATEGORIES
-                .map(
-                  (catData) => CategoryItem(
-                      catData.id,
-                      catData.title,
-                      catData.description,
-                      catData.color,
-                      catData.image as String),
-                )
-                .toList(),
-          ),
+          child: GridView.builder(
+              itemCount: DUMMY_CATEGORIES.length,
+              // physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(15),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                childAspectRatio: 8 / 5,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemBuilder: (BuildContext context, index) {
+                final catData = DUMMY_CATEGORIES[index];
+                return CategoryItem(catData.id, catData.title,
+                    catData.description, catData.image as String);
+              }),
         ),
         SizedBox(
             height: (mediaQuery.size.height -
@@ -59,7 +53,7 @@ class CategoriesScreen extends StatelessWidget {
             child: Stack(children: [
               ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 5, // Replace with your list of swipeable cards
+                  itemCount: DUMMY_RESTURANTS.length,
                   itemBuilder: (BuildContext context, int index) {
                     final resData = DUMMY_RESTURANTS[index];
                     return ResturantItem(resData.id, resData.name,
@@ -77,15 +71,9 @@ class CategoriesScreen extends StatelessWidget {
             ])),
         OrderReviewContainer(mediaQuery: mediaQuery, appBar: appBar),
         const DailyDealsSlider(),
-      BecomeAProContainer(mediaQuery: mediaQuery, appBar: appBar),
+        BecomeAProContainer(mediaQuery: mediaQuery, appBar: appBar),
         PandaRewardsContainer(mediaQuery: mediaQuery, appBar: appBar),
-      
       ]),
     );
   }
 }
-
-
-
-
-
