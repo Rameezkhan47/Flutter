@@ -20,7 +20,6 @@ class CategoriesScreen extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: appBar,
       body: ListView(children: [
         Container(
           color: const Color.fromARGB(26, 131, 129, 129),
