@@ -51,33 +51,39 @@ class MealDetailScreen extends StatelessWidget {
             ),
           ),
           buildSectionTile(context, 'Ingredients'),
-            buildContainer(
-              ListView.builder(
-                itemBuilder: (ctx, index) => Card(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                      child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 10,
-                          ),
-                          child: Text(selectedMeal.ingredients[index])),
-                    ),
-                itemCount: selectedMeal.ingredients.length,
-              ),
-            ),
-          buildSectionTile(context, 'Steps'),
           buildContainer(
-            ListView.builder(itemBuilder: (ctx, index)=> Column(
+            ListView.builder(
+              itemBuilder: (ctx, index) => Card(
+                color: Theme.of(context).colorScheme.inversePrimary,
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 10,
+                    ),
+                    child: Text(selectedMeal.ingredients[index])),
+              ),
+              itemCount: selectedMeal.ingredients.length,
+            ),
+          ),
+          buildSectionTile(context, 'Steps'),
+          buildContainer(ListView.builder(
+            itemBuilder: (ctx, index) => Column(
               children: [
                 ListTile(
-                  leading: CircleAvatar(  child: Text('# ${(index + 1)}',)),
-                  title: Text(selectedMeal.steps[index], style: Theme.of(context).textTheme.titleSmall,),
+                  leading: CircleAvatar(
+                      child: Text(
+                    '# ${(index + 1)}',
+                  )),
+                  title: Text(
+                    selectedMeal.steps[index],
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
                 ),
                 Divider()
               ],
-            ), itemCount: selectedMeal.steps.length,
-            )
-          )
+            ),
+            itemCount: selectedMeal.steps.length,
+          ))
         ],
       )),
     );
