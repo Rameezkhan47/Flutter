@@ -5,22 +5,36 @@ import './categories_screen.dart';
 import '../widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({super.key});
+  final List favorites;
+  const TabsScreen(this.favorites,{super.key});
 
   @override
   State<TabsScreen> createState() => _TabsScreenState();
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  final List _pages = [
-    {'page': const CategoriesScreen(), 'title': 'foodpanda'},
-    {'page': const FavoritesScreen(), 'title': 'favorites'}
-  ];
+   late List _pages;
   int _selectedPageIndex = 0;
 
   void _selectPage(int index) => setState(() {
         _selectedPageIndex = index;
       });
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _pages = [
+    {'page': const CategoriesScreen(), 'title': 'foodpanda'},
+    {'page':  FavoritesScreen(widget.favorites), 'title': 'favorites'}
+  ];
+
+    super.initState();
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);

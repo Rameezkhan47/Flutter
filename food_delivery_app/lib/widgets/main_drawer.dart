@@ -42,7 +42,7 @@ class MainDrawer extends StatelessWidget {
           const Divider(),
           buildListTile(
             'Filters',
-            Icons.filter,
+            Icons.settings,
             () => Navigator.of(context).pushReplacementNamed(FilterScreen.routeName),
           ),
         ],
