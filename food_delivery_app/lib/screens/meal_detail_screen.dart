@@ -33,7 +33,7 @@ class MealDetailScreen extends StatelessWidget {
         ),
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(10),
-        height: mediaQuery.size.height * 0.4,
+        height: mediaQuery.size.height * 0.3,
         width: 300,
         child: child,
       );
