@@ -1,4 +1,5 @@
-import 'dart:ffi';
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class FilterScreen extends StatefulWidget {
   final Map currentFilters;
   final Function saveFilters;
 
-  FilterScreen(this.currentFilters, this.saveFilters, {super.key});
+  const FilterScreen(this.currentFilters, this.saveFilters, {super.key});
 
   @override
   State<FilterScreen> createState() => _FilterScreenState();
@@ -57,7 +58,7 @@ class _FilterScreenState extends State<FilterScreen> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Your filters'),
+          title: const Text('Your filters'),
           actions: [
             IconButton(
                 onPressed: () {
@@ -69,14 +70,14 @@ class _FilterScreenState extends State<FilterScreen> {
                   };
                   widget.saveFilters(selectedFilters);
                 },
-                icon: Icon(Icons.save))
+                icon: const Icon(Icons.save))
           ],
         ),
-        drawer: MainDrawer(),
+        drawer: const MainDrawer(),
         body: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Text(
                 'Adjust your meal selection',
                 style: Theme.of(context).textTheme.titleLarge,

@@ -9,7 +9,10 @@ class ResturantItem extends StatelessWidget {
       {super.key});
 
   @override
+  
   Widget build(BuildContext context) {
+        final mediaQuery = MediaQuery.of(context);
+
     return Container(
       padding: const EdgeInsets.only(left: 5),
       
@@ -17,7 +20,7 @@ class ResturantItem extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(top:25),
-            height: 140,
+            height: mediaQuery.size.height*0.18,
             width: 250,
             padding: const EdgeInsets.all(5), // add padding here
             child: ClipRRect(

@@ -23,7 +23,6 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _pages = [
     {'page': const CategoriesScreen(), 'title': 'foodpanda'},
     {'page':  FavoritesScreen(widget.favorites), 'title': 'favorites'}
@@ -56,7 +55,7 @@ class _TabsScreenState extends State<TabsScreen> {
         ]
       : [],
 ),
-drawer: MainDrawer(),
+drawer: const MainDrawer(),
 
 
       body: _pages[_selectedPageIndex]['page'],

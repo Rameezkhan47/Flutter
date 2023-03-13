@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
   };
 
   List _availableMeals = DUMMY_MEALS;
-  List _favoriteMeals = [];
+  final List _favoriteMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
@@ -116,15 +116,15 @@ class _MyAppState extends State<MyApp> {
           MealDetailScreen.routeName: (ctx) =>  MealDetailScreen(_toggleFavorite, _isMealFavorite),
           FilterScreen.routeName: (ctx) => FilterScreen(_filters, _setFilters),
         },
-        onGenerateRoute: (settings) {
-          print(settings.arguments);
-          // if (settings.name == '/meal-detail') {
-          //   return ...;
-          // } else if (settings.name == '/something-else') {
-          //   return ...;
-          // }
-          // return MaterialPageRoute(builder: (ctx) => CategoriesScreen(),);
-        },
+        // onGenerateRoute: (settings) {
+        //   // print(settings.arguments);
+        //   // if (settings.name == '/meal-detail') {
+        //   //   return ...;
+        //   // } else if (settings.name == '/something-else') {
+        //   //   return ...;
+        //   // }
+        //   // return MaterialPageRoute(builder: (ctx) => CategoriesScreen(),);
+        // },
         onUnknownRoute: (settings) {
           return MaterialPageRoute(
             builder: (ctx) => const CategoriesScreen(),

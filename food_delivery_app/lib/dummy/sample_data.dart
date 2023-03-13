@@ -58,6 +58,7 @@ const DUMMY_CATEGORIES = [
       image: 'assets/images/193.png'),
 ];
 
+// ignore: constant_identifier_names
 const DUMMY_MEALS = [
   Meal(
     id: 'm1',

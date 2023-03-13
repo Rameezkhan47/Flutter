@@ -3,13 +3,13 @@ import '../dummy/sample_data.dart';
 
 class MealDetailScreen extends StatelessWidget {
   static const routeName = './meal-detail';
-    final Function toggleFavorite;
+  final Function toggleFavorite;
   final Function isFavorite;
-  const MealDetailScreen(this.toggleFavorite, this.isFavorite,{super.key});
+  const MealDetailScreen(this.toggleFavorite, this.isFavorite, {super.key});
 
   Widget buildSectionTile(BuildContext context, String text) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Text(
         text,
         style: Theme.of(context).textTheme.titleMedium,
@@ -17,35 +17,37 @@ class MealDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget buildContainer(Widget child) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-      height: 150,
-      width: 300,
-      child: child,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     final mealId = ModalRoute.of(context)?.settings.arguments as String;
     final selectedMeal =
         DUMMY_MEALS.firstWhere((element) => element.id == mealId);
+
+    Widget buildContainer(Widget child) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
+        height: mediaQuery.size.height * 0.4,
+        width: 300,
+        child: child,
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('${selectedMeal.title}'),
+        title: Text(selectedMeal.title),
       ),
       body: SingleChildScrollView(
           child: Column(
         children: [
-          Container(
-            height: 300,
+          SizedBox(
+            height: mediaQuery.size.height * 0.3,
             width: double.infinity,
             child: Image.network(
               selectedMeal.imageUrl,
@@ -55,14 +57,17 @@ class MealDetailScreen extends StatelessWidget {
           buildSectionTile(context, 'Ingredients'),
           buildContainer(
             ListView.builder(
-              itemBuilder: (ctx, index) => Card(
-                color: Theme.of(context).colorScheme.inversePrimary,
-                child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 10,
-                    ),
-                    child: Text(selectedMeal.ingredients[index])),
+              itemBuilder: (ctx, index) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 10,
+                      ),
+                      child: Text(selectedMeal.ingredients[index])),
+                  const Divider()
+                ],
               ),
               itemCount: selectedMeal.ingredients.length,
             ),
@@ -81,7 +86,7 @@ class MealDetailScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),
-                Divider()
+                const Divider()
               ],
             ),
             itemCount: selectedMeal.steps.length,
@@ -89,8 +94,8 @@ class MealDetailScreen extends StatelessWidget {
         ],
       )),
       floatingActionButton: FloatingActionButton(
-        child:  Icon(
-           isFavorite(mealId) ? Icons.star : Icons.star_border,
+        child: Icon(
+          isFavorite(mealId) ? Icons.star : Icons.star_border,
         ),
         onPressed: () {
           toggleFavorite(mealId);

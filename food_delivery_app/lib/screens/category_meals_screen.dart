@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../widgets/meal_item.dart';
-import '../dummy/sample_data.dart';
 
 class CategoryMealsScreen extends StatefulWidget {
   static const routeName = '/category-meal';
@@ -38,11 +37,6 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
     super.didChangeDependencies();
   }
 
-    void _removeMeal(String mealId) {
-    setState(() {
-      categoryMeals.removeWhere((meal) => meal.id == mealId);
-    });
-  }
 
 
   @override

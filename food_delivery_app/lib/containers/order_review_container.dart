@@ -31,7 +31,7 @@ class OrderReviewContainer extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
+              SizedBox(
                 width: 150,
                 child: Text(
                   'How was your order?',
