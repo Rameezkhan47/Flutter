@@ -5,6 +5,7 @@ import './screens/tabs_screen.dart';
 import 'screens/categories_screen.dart';
 import './screens/meal_detail_screen.dart';
 import './screens/filters_screen.dart';
+import './screens/favorites_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -110,11 +111,11 @@ class _MyAppState extends State<MyApp> {
         // home:  const CategoriesScreen(),
         initialRoute: '/', //default route is by convention '/'
         routes: {
-          '/': (ctx) =>  TabsScreen(_favoriteMeals),
           CategoryMealsScreen.routeName: (ctx) =>
               CategoryMealsScreen(_availableMeals),
           MealDetailScreen.routeName: (ctx) =>  MealDetailScreen(_toggleFavorite, _isMealFavorite),
           FilterScreen.routeName: (ctx) => FilterScreen(_filters, _setFilters),
+          FavoritesScreen.routeName:(ctx) => FavoritesScreen(_favoriteMeals),
         },
         // onGenerateRoute: (settings) {
         //   // print(settings.arguments);

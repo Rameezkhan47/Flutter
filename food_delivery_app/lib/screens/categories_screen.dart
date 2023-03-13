@@ -7,6 +7,9 @@ import '../containers/order_review_container.dart';
 import '../containers/become_a_pro_container.dart';
 import '../sliders/daily_dealr_slider.dart';
 import '../containers/panda_rewards_container.dart';
+import '../widgets/main_drawer.dart';
+import './favorites_screen.dart';
+
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -16,10 +19,23 @@ class CategoriesScreen extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
 
     final PreferredSizeWidget appBar = AppBar(
-      title: const Text('foodpanda'),
-    );
+  title: Text('foodpanda'),
+  actions: 
+       [
+          IconButton(
+            icon: const Icon(
+              Icons.favorite_outline_rounded,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed(FavoritesScreen.routeName);
+            },
+          ),
+        ],
+);
 
     return Scaffold(
+      appBar: appBar,
       body: ListView(children: [
         Container(
           color: const Color.fromARGB(26, 131, 129, 129),
@@ -73,6 +89,7 @@ class CategoriesScreen extends StatelessWidget {
         BecomeAProContainer(mediaQuery: mediaQuery, appBar: appBar),
         PandaRewardsContainer(mediaQuery: mediaQuery, appBar: appBar),
       ]),
+      drawer: const MainDrawer(),
     );
   }
 }
