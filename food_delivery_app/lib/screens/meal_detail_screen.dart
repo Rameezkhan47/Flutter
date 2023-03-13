@@ -71,6 +71,7 @@ class MealDetailScreen extends StatelessWidget {
               ),
               itemCount: selectedMeal.ingredients.length,
             ),
+            
           ),
           buildSectionTile(context, 'Steps'),
           buildContainer(ListView.builder(
