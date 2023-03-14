@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import './screens/products_overview_screen.dart';
 import './screens/product_detail_screen.dart';
+import './screens/cart_screen.dart';
 
 import './providers/products.dart';
 import './providers/cart.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
           FocusScope.of(context).unfocus();
         },
         child: MaterialApp(
-          title: 'foodpanda',
+          title: 'Shop App',
           theme: ThemeData(
             primarySwatch: Colors
                 .pink, //sets the theme for the app, the widgets will inherit shades of primary swatch
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
               secondary: Colors.amberAccent,
               surface: Colors.white,
               background: Colors.grey,
-              error: Colors.redAccent,
+              error: Colors.red,
               onPrimary: Colors.white,
               onSecondary: Colors.white,
               onSurface: Colors.black,
@@ -74,6 +75,8 @@ class MyApp extends StatelessWidget {
           home: ProductsOverviewScreen(),
           routes: {
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+            CartScreen.routeName: (ctx) => CartScreen()
+
           },
         ),
       ),
