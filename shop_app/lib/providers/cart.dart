@@ -37,6 +37,7 @@ class Cart with ChangeNotifier {
               title: existingCartItem.title,
               quantity: existingCartItem.quantity + 1,
               price: existingCartItem.price));
+      print("contains ${itemCount.toString()}");
     } else {
       _items.putIfAbsent(
           productId,
