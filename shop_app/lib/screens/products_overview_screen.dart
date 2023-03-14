@@ -7,6 +7,8 @@ import '../screens/cart_screen.dart';
 import '../widgets/products_grid.dart';
 import '../providers/cart.dart';
 import '../widgets//badge.dart';
+import '../widgets/app_drawer.dart';
+
 enum FilterOptions {
   // ignore: constant_identifier_names
   Favorites,
@@ -68,6 +70,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ProductsGrid(_showOnlyFavorites)
         ],
       ),
+            drawer: AppDrawer(),
+
     );
   }
 }
