@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/products_grid.dart';
-
+import '../providers/cart.dart';
+import '../widgets//badge.dart';
 enum FilterOptions {
   // ignore: constant_identifier_names
   Favorites,
@@ -9,6 +11,8 @@ enum FilterOptions {
 }
 
 class ProductsOverviewScreen extends StatefulWidget {
+  const ProductsOverviewScreen({super.key});
+
   @override
   State<ProductsOverviewScreen> createState() => _ProductsOverviewScreenState();
 }
@@ -19,7 +23,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MyShop'),
+        title: const Text('MyShop'),
         actions: [
           PopupMenuButton(
               onSelected: (FilterOptions selectedValue) {
@@ -29,18 +33,34 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                       : _showOnlyFavorites = false;
                 });
               },
-              icon: Icon(Icons.more_vert_rounded),
+              icon: const Icon(Icons.more_vert_rounded),
               itemBuilder: (_) => [
-                    PopupMenuItem(child: Text('Favorites'), value: FilterOptions.Favorites,),
-                    PopupMenuItem(child: Text('All'), value: FilterOptions.All)
-                  ]
-                  )
+                    const PopupMenuItem(
+                      value: FilterOptions.Favorites,
+                      child: Text('Favorites'),
+                    ),
+                    const PopupMenuItem(
+                        value: FilterOptions.All, child: Text('All'))
+                  ]),
+
+                  Consumer<Cart>(
+            builder: (_, cart, ch) => CartBadge(
+                  value: cart.itemCount.toString(),
+                  child: ch as Widget,
+                ),
+            child: IconButton(
+              icon: const Icon(
+                Icons.shopping_cart,
+              ),
+              onPressed: () {},
+            ),
+          ),
         ],
       ),
       body: ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 100),
+            margin: const EdgeInsets.only(bottom: 100),
           ),
           ProductsGrid(_showOnlyFavorites)
         ],
