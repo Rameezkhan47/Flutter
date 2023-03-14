@@ -5,6 +5,7 @@ import './screens/products_overview_screen.dart';
 import './screens/product_detail_screen.dart';
 
 import './providers/products.dart';
+import './providers/cart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,10 +15,18 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
-   @override
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-            value: Products(), // the Products instance is passed down to all its descendant widgets,
+    return MultiProvider(
+// the Products instance is passed down to all its descendant widgets,
+      providers: [
+        ChangeNotifierProvider.value(
+          value: Products(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Cart(), 
+        ),
+      ],
 
       child: GestureDetector(
         onTap: () {
@@ -43,13 +52,11 @@ class MyApp extends StatelessWidget {
             ),
             fontFamily: 'VAGRounded',
             textTheme: const TextTheme(
-              titleMedium: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Quicksand'),
-                  titleSmall: TextStyle(
+              titleMedium: TextStyle(fontSize: 16.0, fontFamily: 'Quicksand'),
+              titleSmall: TextStyle(
                   fontSize: 12.0,
                   color: Color.fromARGB(255, 255, 255, 255),
-                  fontFamily: 'OpenSans'),  // sets theme for different texts
+                  fontFamily: 'OpenSans'), // sets theme for different texts
               displayLarge: TextStyle(fontSize: 24.0, color: Colors.white),
               titleLarge: TextStyle(
                   fontSize: 24.0,
@@ -64,11 +71,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
           // home:  const CategoriesScreen(),
-           home: ProductsOverviewScreen(),
-            routes: {
-              ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-          
-            
+          home: ProductsOverviewScreen(),
+          routes: {
+            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           },
         ),
       ),
