@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/cart.dart' show Cart; //only interested in cart import
 import '../widgets/cart_item.dart';
+import '../providers/orders.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart';
@@ -37,26 +38,35 @@ class CartScreen extends StatelessWidget {
                   backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<Orders>(context, listen: false).addOrder(
+                      cart.items.values.toList(),
+                      cart.totalAmount,
+
+                    );
+
+                    // cart.items.forEach((key, value) { print('${key}:  ${value.id},  ${value.title},  ${value.quantity},  ${value.price}');});
+
+                    cart.clear();
+                  },
                   child: Text('Order Now', style: TextStyle(fontSize: 16)),
                 ),
-
               ],
             ),
           ),
         ),
-                  Expanded(
-            child: ListView.builder(
-              itemCount: cart.items.length,
-              itemBuilder: (ctx, i) => CartItem(
-                    cart.items.values.toList()[i].id,
-                    cart.items.keys.toList()[i],
-                    cart.items.values.toList()[i].price,
-                    cart.items.values.toList()[i].quantity,
-                    cart.items.values.toList()[i].title,
-                  ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: cart.items.length,
+            itemBuilder: (ctx, i) => CartItem(
+              cart.items.values.toList()[i].id,
+              cart.items.keys.toList()[i],
+              cart.items.values.toList()[i].price,
+              cart.items.values.toList()[i].quantity,
+              cart.items.values.toList()[i].title,
             ),
-          )
+          ),
+        )
       ]),
     );
   }
