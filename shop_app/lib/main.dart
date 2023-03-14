@@ -27,6 +27,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: Cart(), 
         ),
+        ChangeNotifierProvider.value(
+          value: Orders(),
+        ),
       ],
 
       child: GestureDetector(
