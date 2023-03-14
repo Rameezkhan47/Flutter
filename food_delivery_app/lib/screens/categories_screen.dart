@@ -10,7 +10,6 @@ import '../containers/panda_rewards_container.dart';
 import '../widgets/main_drawer.dart';
 import './favorites_screen.dart';
 
-
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
 
@@ -19,20 +18,20 @@ class CategoriesScreen extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
 
     final PreferredSizeWidget appBar = AppBar(
-  title: Text('foodpanda'),
-  actions: 
-       [
-          IconButton(
-            icon: const Icon(
-              Icons.favorite_outline_rounded,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed(FavoritesScreen.routeName);
-            },
+      title: Text('foodpanda'),
+      actions: [
+        IconButton(
+          icon: const Icon(
+            Icons.favorite_outline_rounded,
+            color: Colors.white,
           ),
-        ],
-);
+          onPressed: () {
+            Navigator.of(context)
+                .pushReplacementNamed(FavoritesScreen.routeName);
+          },
+        ),
+      ],
+    );
 
     return Scaffold(
       appBar: appBar,
@@ -48,8 +47,8 @@ class CategoriesScreen extends StatelessWidget {
               itemCount: DUMMY_CATEGORIES.length,
               // physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.all(15),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
                 childAspectRatio: 8 / 5,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
