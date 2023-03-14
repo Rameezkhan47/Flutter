@@ -14,7 +14,7 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  final Map<String, CartItem> _items = {};
+   Map<String, CartItem> _items = {};
 
   Map get items {
     return {..._items};
@@ -46,7 +46,6 @@ class Cart with ChangeNotifier {
               title: existingCartItem.title,
               quantity: existingCartItem.quantity + 1,
               price: existingCartItem.price));
-      print("contains ${itemCount.toString()}");
     } else {
       _items.putIfAbsent(
           productId,
@@ -63,6 +62,11 @@ class Cart with ChangeNotifier {
     _items.remove(productId);
       notifyListeners();
 
+  }
+
+    void clear() {
+    _items = {};
+    notifyListeners();
   }
   
 }
