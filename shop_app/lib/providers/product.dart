@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class Product with ChangeNotifier { ///mixin with ChangeNotifier that gives us access to nethod notifyListeners()
-  final String id;
+  final String? id;
   final String title;
   final String description;
   final double price;

@@ -38,18 +38,18 @@ class ProductItem extends StatelessWidget {
 
             ),
             title: Text(
-              product.title, style: Theme.of(context).textTheme.titleSmall, 
+              product.title as String, style: Theme.of(context).textTheme.titleSmall, 
               textAlign: TextAlign.center,
             ),
             trailing: IconButton(
-                onPressed: () {cart.addItem(product.id, product.price, product.title);},
+                onPressed: () {cart.addItem(product.id as String, product.price as double, product.title as String);},
                 icon: Icon(Icons.add_shopping_cart_rounded,
                     color: Theme.of(context).colorScheme.primary))),
         child: GestureDetector(
           onTap: () => Navigator.of(context)
               .pushNamed(ProductDetailScreen.routeName, arguments: product.id),
           child: Image.network(
-            product.imageUrl,
+            product.imageUrl as String,
             fit: BoxFit.cover,
           ),
         ),
