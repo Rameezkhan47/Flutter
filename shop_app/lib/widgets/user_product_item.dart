@@ -9,7 +9,7 @@ import '../providers/products.dart';
 
 
 class UserProductItem extends StatelessWidget {
-  final String id;
+  final String? id;
   final String title;
   final String imageUrl;
 
@@ -36,7 +36,7 @@ class UserProductItem extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
-                Provider.of<Products>(context, listen: false).deleteProduct(id);
+                Provider.of<Products>(context, listen: false).deleteProduct(id!);
 
               },
               color: Theme.of(context).colorScheme.error,

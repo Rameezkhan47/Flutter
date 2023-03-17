@@ -23,24 +23,28 @@ class _OrderItemState extends State<OrderItem> {
       margin: EdgeInsets.all(10),
       child: Column(
         children: <Widget>[
-          ListTile(
-            title: Text('\$${widget.order.amount}'),
-            subtitle: Text(
-              DateFormat('dd/MM/yyyy hh:mm').format(widget.order.dateTime),
-            ),
-            trailing: IconButton(
-              icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
-              onPressed: () {
-                setState(() {
-                  _expanded = !_expanded;
-                });
-              },
+          Padding(
+            
+            padding: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title: Text('\$${widget.order.amount}'),
+              subtitle: Text(
+                DateFormat('dd/MM/yyyy hh:mm').format(widget.order.dateTime),
+              ),
+              trailing: IconButton(
+                icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
+                onPressed: () {
+                  setState(() {
+                    _expanded = !_expanded;
+                  });
+                },
+              ),
             ),
           ),
           if (_expanded)
             Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-              height: min(widget.order.products.length * 20.0 + 10, 100),
+              height: min(widget.order.products.length * 40.0 + 10, 150),
               child: ListView(
                 children: widget.order.products
                     .map(
