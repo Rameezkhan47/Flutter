@@ -60,23 +60,24 @@ class MyApp extends StatelessWidget {
             ),
             fontFamily: 'VAGRounded',
             textTheme: const TextTheme(
-              titleMedium: TextStyle(fontSize: 16.0, fontFamily: 'Quicksand'),
-              titleSmall: TextStyle(
-                  fontSize: 12.0,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontFamily: 'OpenSans'), // sets theme for different texts
-              displayLarge: TextStyle(fontSize: 24.0, color: Colors.white),
-              titleLarge: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.w400),
-              bodyMedium: TextStyle(
-                  fontSize: 13.0,
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.w800),
-              bodySmall: TextStyle(
-                  fontSize: 12.0, color: Color.fromARGB(255, 114, 114, 114)),
-            ),
+                titleMedium: TextStyle(fontSize: 16.0, fontFamily: 'Quicksand'),
+                titleSmall: TextStyle(
+                    fontSize: 12.0,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontFamily: 'OpenSans'), // sets theme for different texts
+                displayLarge: TextStyle(fontSize: 24.0, color: Colors.white),
+                titleLarge: TextStyle(
+                    fontSize: 24.0,
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.w400),
+                bodyMedium: TextStyle(
+                    fontSize: 13.0,
+                    fontFamily: 'OpenSans',
+                    fontWeight: FontWeight.w800),
+                bodySmall: TextStyle(
+                    fontSize: 12.0, color: Color.fromARGB(255, 114, 114, 114)),
+                displaySmall: TextStyle(
+                    fontSize: 18.0,fontFamily: 'OpenSans', color: Color.fromARGB(255, 255, 255, 255))),
           ),
           // home:  const CategoriesScreen(),
           home: ProductsOverviewScreen(),
