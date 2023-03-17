@@ -51,6 +51,44 @@ class Products with ChangeNotifier { //mixin with ChangeNotifier that gives us a
     return _items.where((prodItem) => prodItem.isFavorite).toList();
   }
 
+  Future<void> fetchAndSetProducts() async {
+    const url =
+        'https://flutter-41360-default-rtdb.firebaseio.com/products.json';
+    try {
+      final response = await http.get(Uri.parse(url));
+      final extractedData = jsonDecode(response.body);
+      if (extractedData == null) {
+        return;
+      }
+      final List<Product> loadedProducts = [];
+      extractedData.forEach((key, value) {
+        loadedProducts.add(Product(
+            id: key,
+            title: value['title'],
+            description: value['description'],
+            price: value['price'],
+            isFavorite: value['isFavorite'],
+            imageUrl: value['imageUrl']));
+      });
+      _items = loadedProducts;
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> addProduct(Product product) async {
+    const url =
+        'https://flutter-41360-default-rtdb.firebaseio.com/products.json';
+    try {
+      final response = await http.post(Uri.parse(url),
+          body: json.encode({
+            'title': product.title,
+            'description': product.description,
+            'price': product.price,
+            'imageUrl': product.imageUrl,
+            'isFavorite': product.isFavorite,
+          }));
 
   void addProduct(Product product) {
     final newProduct = Product(
