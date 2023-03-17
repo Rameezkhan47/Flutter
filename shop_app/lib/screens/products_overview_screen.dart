@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 
 import '../screens/cart_screen.dart';
 
-
 import '../widgets/products_grid.dart';
 import '../providers/cart.dart';
 import '../widgets//badge.dart';
 import '../widgets/app_drawer.dart';
+import '../providers/products.dart';
 
 enum FilterOptions {
   // ignore: constant_identifier_names
@@ -24,11 +24,13 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool _showOnlyFavorites = false;
+  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MyShop'),
+        final mediaQuery = MediaQuery.of(context);
+
+  final appBar = AppBar(
+        title: const Center(child: Text('MyShop')),
         actions: [
           PopupMenuButton(
               onSelected: (FilterOptions selectedValue) {
@@ -47,31 +49,48 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                     const PopupMenuItem(
                         value: FilterOptions.All, child: Text('All'))
                   ]),
-
-                  Consumer<Cart>(
+          Consumer<Cart>(
             builder: (_, cart, ch) => CartBadge(
-                  value: cart.itemCount.toString(),
-                  child: ch as Widget,
-                ),
+              value: cart.itemCount.toString(),
+              child: ch as Widget,
+            ),
             child: IconButton(
               icon: const Icon(
                 Icons.shopping_cart,
               ),
-              onPressed: () {Navigator.of(context).pushNamed(CartScreen.routeName);},
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
             ),
           ),
         ],
-      ),
-      body: ListView(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 100),
-          ),
-          ProductsGrid(_showOnlyFavorites)
-        ],
-      ),
-            drawer: AppDrawer(),
+      );
 
+    return Scaffold(
+      appBar: appBar,
+      body: FutureBuilder(
+        future:
+            Provider.of<Products>(context, listen: false).fetchAndSetProducts(),
+        builder: (context, snapshot) {
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('An error occurred!'),
+            );
+          } else {
+            return Container(
+              height: (mediaQuery.size.height -
+                  appBar.preferredSize.height -
+                  mediaQuery.padding.top) *
+              1,
+              child: ProductsGrid(_showOnlyFavorites));
+          }
+        },
+      ),
+      drawer: AppDrawer(),
     );
   }
 }
