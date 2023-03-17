@@ -7,6 +7,8 @@ import '../providers/products.dart';
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
 
+  const EditProductScreen({super.key});
+
   @override
   _EditProductScreenState createState() => _EditProductScreenState();
 }
@@ -28,6 +30,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   };
   var _isInit = true;
+  var _isLoading = false;
+
 
   @override
   void initState() {
@@ -70,10 +74,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   void  _updateImageUrl() { //this function will trigger whenever focus changes as listener is attached to it in the initState
     if (!_imageUrlFocusNode.hasFocus) {
       if ((!_imageUrlController.text.startsWith('http') &&
-              !_imageUrlController.text.startsWith('https')) ||
-          (!_imageUrlController.text.endsWith('.png') &&
-              !_imageUrlController.text.endsWith('.jpg') &&
-              !_imageUrlController.text.endsWith('.jpeg'))) {
+              !_imageUrlController.text.startsWith('https'))) {
         return;
       }
       setState(() {}); 
@@ -81,20 +82,42 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final isValid = _form.currentState?.validate();
     if (!isValid!) {
       return;
     }
     _form.currentState?.save();
+    setState(() {
+      _isLoading = true;
+    });
     if (_editedProduct.id != null) {
-      Provider.of<Products>(context, listen: false)
+      await Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
-      Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+      try {
+              Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+
+      } catch (e) {
+        await showDialog(context: context, builder: (ctx) =>
+          AlertDialog(
+            title: const Text("An error occured"),
+            content: const Text('Something went wrong'),
+            actions: [
+              TextButton(onPressed: ()=>Navigator.of(ctx).pop(), child: const Text('Okay'))
+            ],
+          ));
+      }
     }
-    Navigator.of(context).pop();
+    setState(() {
+         _isLoading = false;
+
+    });
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pop();
+
   }
+   
 
   @override
   Widget build(BuildContext context) {
@@ -104,15 +127,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Edit Product'),
+          title: const Text('Edit Product'),
           actions: [
             IconButton(
-              icon: Icon(Icons.save),
+              icon: const Icon(Icons.save),
               onPressed: _saveForm,
             ),
           ],
         ),
-        body: Padding(
+        body: _isLoading? const Center(child: CircularProgressIndicator(),) :Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _form,
@@ -120,7 +143,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               children: [
                 TextFormField(
                   initialValue: _initValues['title'],
-                  decoration: InputDecoration(labelText: 'Title'),
+                  decoration: const InputDecoration(labelText: 'Title'),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_priceFocusNode);
@@ -143,7 +166,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 ),
                 TextFormField(
                   initialValue: _initValues['price'],
-                  decoration: InputDecoration(labelText: 'Price'),
+                  decoration: const InputDecoration(labelText: 'Price'),
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
                   focusNode: _priceFocusNode,
@@ -174,7 +197,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 ),
                 TextFormField(
                   initialValue: _initValues['description'],
-                  decoration: InputDecoration(labelText: 'Description'),
+                  decoration: const InputDecoration(labelText: 'Description'),
                   maxLines: 3,
                   keyboardType: TextInputType.multiline,
                   focusNode: _descriptionFocusNode,
@@ -204,7 +227,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     Container(
                       width: 100,
                       height: 100,
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                         top: 8,
                         right: 10,
                       ),
@@ -215,7 +238,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         ),
                       ),
                       child: _imageUrlController.text.isEmpty
-                          ? Text('Enter a URL')
+                          ? const Text('Enter a URL')
                           : FittedBox(
                               child: Image.network(
                                 _imageUrlController.text,
@@ -225,7 +248,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                     Expanded(
                       child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Image URL'),
+                        decoration: const InputDecoration(labelText: 'Image URL'),
                         keyboardType: TextInputType.url,
                         textInputAction: TextInputAction.done,
                         controller: _imageUrlController,
@@ -241,11 +264,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               !value.startsWith('https')) {
                             return 'Please enter a valid URL.';
                           }
-                          if (!value.endsWith('.png') &&
-                              !value.endsWith('.jpg') &&
-                              !value.endsWith('.jpeg')) {
-                            return 'Please enter a valid image URL.';
-                          }
+
                           return null;
                         },
                         onSaved: (value) {
