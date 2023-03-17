@@ -20,8 +20,8 @@ class CartItem extends StatelessWidget {
       background: Container(
         color: Theme.of(context).colorScheme.error,
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(right: 20),
-        margin: EdgeInsets.all(10),
+        padding: const EdgeInsets.only(right: 20),
+        margin: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children:  [
@@ -30,22 +30,47 @@ class CartItem extends StatelessWidget {
               color: Colors.white,
               size: 30,
             ),
-            Padding(padding: EdgeInsets.only(right: 10)),
+            const Padding(padding: EdgeInsets.only(right: 10)),
             Text("Delete", style: Theme.of(context).textTheme.titleMedium, )
           ],
         ),
         
       ),
       direction: DismissDirection.endToStart,
+            confirmDismiss: (direction) {
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text('Are you sure?'),
+                content: const Text(
+                  'Do you want to remove the item from the cart?',
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('No'),
+                    onPressed: () {
+                      Navigator.of(ctx).pop(false);
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('Yes'),
+                    onPressed: () {
+                      Navigator.of(ctx).pop(true);
+                    },
+                  ),
+                ],
+              ),
+        );
+      },
       onDismissed: (direction){cart.removeItem(productId);},
 
       child: Card(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: ListTile(
             leading: CircleAvatar(
-                backgroundColor: Color.fromARGB(255, 255, 123, 0),
+                backgroundColor: const Color.fromARGB(255, 255, 123, 0),
                 foregroundColor: Colors.black,
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
