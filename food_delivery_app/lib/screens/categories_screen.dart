@@ -18,7 +18,7 @@ class CategoriesScreen extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
 
     final PreferredSizeWidget appBar = AppBar(
-      title: Text('foodpanda'),
+      title: const Text('foodpanda'),
       actions: [
         IconButton(
           icon: const Icon(

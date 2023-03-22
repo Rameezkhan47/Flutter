@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../providers/products.dart';
 
 import '../screens/edit_product_screen.dart';
-import '../providers/products.dart';
 
 
 
@@ -13,7 +12,7 @@ class UserProductItem extends StatelessWidget {
   final String title;
   final String imageUrl;
 
-  UserProductItem(this.id, this.title, this.imageUrl);
+  const UserProductItem(this.id, this.title, this.imageUrl, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,19 +21,19 @@ class UserProductItem extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: NetworkImage(imageUrl),
       ),
-      trailing: Container(
+      trailing: SizedBox(
         width: 100,
         child: Row(
           children: [
             IconButton(
-              icon: Icon(Icons.edit),
+              icon: const Icon(Icons.edit),
               onPressed: () {
                 Navigator.of(context).pushNamed(EditProductScreen.routeName, arguments: id);
               },
               color: Theme.of(context).colorScheme.primary,
             ),
             IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () {
                 Provider.of<Products>(context, listen: false).deleteProduct(id!);
 

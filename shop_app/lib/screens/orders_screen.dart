@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/orders.dart' show Orders;
@@ -8,22 +9,32 @@ import '../widgets/app_drawer.dart';
 class OrdersScreen extends StatelessWidget {
   static const routeName = '/orders';
 
+  const OrdersScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
+
     final orderData = Provider.of<Orders>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: const Text('Your Orders'),
         ),
-        drawer: AppDrawer(),
+        drawer: const AppDrawer(),
         body: RefreshIndicator(
-          
           onRefresh: () => orderData.fetchAndSetOrders(),
           child: FutureBuilder(
               future: orderData.fetchAndSetOrders(),
               builder: ((context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(
+                    child: Lottie.asset(
+                      'assets/loading.json',
+                      height: deviceSize.height * 0.2,
+                      // width: deviceSize.width,
+                      fit: BoxFit.fill,
+                    ),
+                  );
                 } else {
                   if (snapshot.hasError) {
                     return const Center(
@@ -36,7 +47,6 @@ class OrdersScreen extends StatelessWidget {
                                 itemCount: orderData.orders.length,
                                 itemBuilder: (ctx, i) {
                                   return Dismissible(
-                                    
                                       key: Key(
                                           orderData.orders[i].id.toString()),
                                       direction: DismissDirection.endToStart,
@@ -71,17 +81,17 @@ class OrdersScreen extends StatelessWidget {
                                                   listen: false)
                                               .deleteOrder(
                                                   orderData.orders[i].id);
+                                          // ignore: use_build_context_synchronously
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(
                                                   content: Text(
                                             'Order successfully deleted',
+                                            // ignore: use_build_context_synchronously
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .displaySmall,
                                             textAlign: TextAlign.center,
-                                          )
-                                          )
-                                          );
+                                          )));
                                         } catch (e) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(

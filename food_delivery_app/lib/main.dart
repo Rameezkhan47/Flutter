@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/dummy/sample_data.dart';
 import 'package:food_delivery_app/screens/category_meals_screen.dart';
-import './screens/tabs_screen.dart';
 import 'screens/categories_screen.dart';
 import './screens/meal_detail_screen.dart';
 import './screens/filters_screen.dart';

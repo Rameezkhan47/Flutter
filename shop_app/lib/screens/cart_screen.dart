@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart.dart' show Cart; //only interested in cart import
@@ -72,9 +73,12 @@ class OrderButton extends StatefulWidget {
 }
 
 class _OrderButtonState extends State<OrderButton> {
+  
   var _isLoading = false;
   @override
   Widget build(BuildContext context) {
+        final deviceSize = MediaQuery.of(context).size;
+
     return TextButton(
       onPressed: () async {
         setState(() {
@@ -88,7 +92,12 @@ class _OrderButtonState extends State<OrderButton> {
         widget.cart.clear();
       },
       child: _isLoading
-          ? const CircularProgressIndicator()
+          ?  Lottie.asset(
+                      'assets/loading.json',
+                      height: deviceSize.height * 0.07,
+                      // width: deviceSize.width,
+                      fit: BoxFit.fill,
+                    )
           : const Text('Order Now', style: TextStyle(fontSize: 16)),
     );
   }

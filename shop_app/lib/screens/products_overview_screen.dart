@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/cart_screen.dart';
@@ -12,6 +13,7 @@ import '../providers/products.dart';
 enum FilterOptions {
   // ignore: constant_identifier_names
   Favorites,
+  // ignore: constant_identifier_names
   All
 }
 
@@ -28,6 +30,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   @override
   Widget build(BuildContext context) {
         final mediaQuery = MediaQuery.of(context);
+            final deviceSize = MediaQuery.of(context).size;
+
 
   final appBar = AppBar(
         title: const Center(child: Text('MyShop')),
@@ -74,23 +78,30 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         builder: (context, snapshot) {
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return  Center(child: Lottie.asset(
+                  'assets/loading.json',
+                  height: deviceSize.height * 0.2,
+                  // width: deviceSize.width,
+                  fit: BoxFit.fill,
+                ));
           }
           if (snapshot.hasError) {
             return const Center(
               child: Text('An error occurred!'),
             );
-          } else {
+          } 
+          else {
             return Container(
               height: (mediaQuery.size.height -
                   appBar.preferredSize.height -
                   mediaQuery.padding.top) *
               1,
+              padding: const EdgeInsets.all(15),
               child: ProductsGrid(_showOnlyFavorites));
           }
         },
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
     );
   }
 }

@@ -13,7 +13,6 @@ class ProductsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
     final products = showFavs?productsData.favoriteItems:productsData.items;
-        final mediaQuery = MediaQuery.of(context);
 
 
     return RefreshIndicator(
@@ -21,7 +20,7 @@ class ProductsGrid extends StatelessWidget {
       child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 5 / 4,
+              childAspectRatio: 7 / 8,
               crossAxisSpacing: 12,
               mainAxisSpacing: 10),
           itemBuilder: (context, index) => ChangeNotifierProvider.value(

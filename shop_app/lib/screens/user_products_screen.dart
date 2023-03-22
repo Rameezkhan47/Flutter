@@ -1,8 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../providers/products.dart';
 import '../widgets/user_product_item.dart';
@@ -12,12 +11,17 @@ import './edit_product_screen.dart';
 class UserProductsScreen extends StatelessWidget {
   static const routeName = '/user-products';
 
+  const UserProductsScreen({super.key});
+
   Future<void> _refreshProducts(BuildContext context) async {
-    await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+    await Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts(true);
   }
 
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
+
     final productsData = Provider.of<Products>(context, listen: false);
 
     final PreferredSizeWidget appBar = AppBar(
@@ -33,16 +37,22 @@ class UserProductsScreen extends StatelessWidget {
     );
     return Scaffold(
       appBar: appBar,
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: RefreshIndicator(
         onRefresh: () => _refreshProducts(context),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: FutureBuilder(
             future: _refreshProducts(context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(
+                    child: Lottie.asset(
+                  'assets/loading.json',
+                  height: deviceSize.height * 0.2,
+                  // width: deviceSize.width,
+                  fit: BoxFit.fill,
+                ));
               }
               if (snapshot.hasError) {
                 return const Center(
@@ -61,7 +71,7 @@ class UserProductsScreen extends StatelessWidget {
                           productsData.items[i].title,
                           productsData.items[i].imageUrl,
                         ),
-                        Divider(),
+                        const Divider(),
                       ],
                     ),
                   );
