@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-import '../providers/cart.dart';
+import '../controllers/cart_controller.dart';
 
 class CartItem extends StatelessWidget {
   final String id;
@@ -16,7 +16,7 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Get.find<Cart>();
+    final cart = Get.find<CartController>();
     return Dismissible(
       key: ValueKey(id),
       background: Container(

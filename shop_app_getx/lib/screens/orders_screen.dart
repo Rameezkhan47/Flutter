@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/orders.dart' show Orders;
+import '../controllers/orders_controller.dart' show Orders, OrdersController;
 import '../widgets/order_item.dart';
 import '../widgets/app_drawer.dart';
 
@@ -17,7 +17,7 @@ class OrdersScreen extends StatelessWidget {
     final deviceSize = Get.size;
     // final deviceSize = MediaQuery.of(context).size;
 
-    final orderData = Get.find<Orders>();
+    final orderData = Get.find<OrdersController>();
     return Scaffold(
         appBar: AppBar(
           title: const Text('Your Orders'),
@@ -43,7 +43,7 @@ class OrdersScreen extends StatelessWidget {
                       child: Text('You have no orders'),
                     );
                   } else {
-                    return GetBuilder<Orders>(
+                    return GetBuilder<OrdersController>(
                         builder: (orderData) =>
                             ListView.builder(
                                 itemCount: orderData.orders.length,
@@ -71,7 +71,7 @@ class OrdersScreen extends StatelessWidget {
                                       },
                                       onDismissed: (direction) async {
                                         try {
-                                          await Get.find<Orders>()
+                                          await Get.find<OrdersController>()
                                               .deleteOrder(
                                                   orderData.orders[i].id);
                                           // ignore: use_build_context_synchronously

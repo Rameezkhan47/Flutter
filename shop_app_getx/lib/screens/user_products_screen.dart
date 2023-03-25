@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/products.dart';
+import '../controllers/products_controller.dart';
 import '../widgets/user_product_item.dart';
 import '../widgets/app_drawer.dart';
 import './edit_product_screen.dart';
@@ -14,7 +14,7 @@ class UserProductsScreen extends StatelessWidget {
   const UserProductsScreen({super.key});
 
   Future<void> _refreshProducts(BuildContext context) async {
-    await Get.find<Products>()
+    await Get.find<ProductsController>()
         .fetchAndSetProducts(true);
   }
 
@@ -23,7 +23,7 @@ class UserProductsScreen extends StatelessWidget {
     final deviceSize = Get.size;
     // final deviceSize = MediaQuery.of(context).size;
 
-    final productsData =  Get.find<Products>();
+    final productsData =  Get.find<ProductsController>();
 
     final PreferredSizeWidget appBar = AppBar(
       title: const Text('Your Products'),
@@ -62,7 +62,7 @@ class UserProductsScreen extends StatelessWidget {
                 );
               }
 
-              return GetBuilder<Products>(
+              return GetBuilder<ProductsController>(
                 builder: (productsController) {
                   return ListView.builder(
                     itemCount: productsData.items.length,

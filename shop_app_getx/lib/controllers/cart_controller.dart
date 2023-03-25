@@ -15,7 +15,7 @@ class CartItem {
       required this.price});
 }
 
-class Cart extends GetxController {
+class CartController extends GetxController {
    Map<String, CartItem> _items = {};
 
   Map get items {

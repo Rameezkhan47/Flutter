@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/product.dart';
+import 'package:shop_app/models/product.dart';
 
 import './screens/products_overview_screen.dart';
 import './screens/product_detail_screen.dart';
@@ -12,11 +12,11 @@ import './screens/edit_product_screen.dart';
 import './screens/splash_screen.dart';
 import './screens/auth_screen.dart';
 
-import './providers/products.dart';
-import './providers/product.dart';
-import './providers/cart.dart';
-import './providers/orders.dart';
-import './providers/auth.dart';
+import 'controllers/products_controller.dart';
+import 'models/product.dart';
+import 'controllers/cart_controller.dart';
+import 'controllers/orders_controller.dart';
+import 'controllers/auth_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,11 +35,11 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         title: 'Shop App GetX',
         initialBinding: BindingsBuilder(() {
-          Get.put<Auth>(Auth());
-          var auth = Get.find<Auth>();
-          Get.lazyPut(() => Products(auth.token, auth.userId, []));
-          Get.put<Cart>(Cart());
-          Get.lazyPut<Orders>((() => Orders(auth.token, auth.userId, [])));
+          Get.put<AuthController>(AuthController());
+          var auth = Get.find<AuthController>();
+          Get.lazyPut(() => ProductsController(auth.token, auth.userId, []));
+          Get.put<CartController>(CartController());
+          Get.lazyPut<OrdersController>((() => OrdersController(auth.token, auth.userId, [])));
         }),
 
         theme: ThemeData(
@@ -86,8 +86,8 @@ class MyApp extends StatelessWidget {
                   color: Color.fromARGB(255, 255, 255, 255))),
         ),
         // home:   SplashScreen(),
-        home: GetBuilder<Auth>(
-            init: Auth(),
+        home: GetBuilder<AuthController>(
+            init: AuthController(),
             builder: (authController) => authController.isAuth
                 ? const ProductsOverviewScreen()
                 : FutureBuilder(

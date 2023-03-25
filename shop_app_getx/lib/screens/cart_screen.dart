@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/cart.dart' show Cart; //only interested in cart import
+import '../controllers/cart_controller.dart' show Cart, CartController; //only interested in cart import
 import '../widgets/cart_item.dart';
-import '../providers/orders.dart';
+import '../controllers/orders_controller.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart';
@@ -13,7 +13,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Get.find<Cart>();
+    final cart = Get.find<CartController>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Cart'),
@@ -67,7 +67,7 @@ class OrderButton extends StatefulWidget {
     required this.cart,
   });
 
-  final Cart cart;
+  final CartController cart;
 
   @override
   State<OrderButton> createState() => _OrderButtonState();
@@ -86,7 +86,7 @@ class _OrderButtonState extends State<OrderButton> {
         setState(() {
           _isLoading = true;
         });
-        await Get.find<Orders>().addOrder(
+        await Get.find<OrdersController>().addOrder(
             widget.cart.items.values.toList(), widget.cart.totalAmount);
         setState(() {
           _isLoading = false;

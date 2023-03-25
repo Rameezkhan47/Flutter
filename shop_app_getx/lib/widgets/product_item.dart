@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/product.dart';
-import '../providers/cart.dart';
-import '../providers/auth.dart';
+import 'package:shop_app/models/product.dart';
+import '../controllers/cart_controller.dart';
+import '../controllers/auth_controller.dart';
 
 import 'package:shop_app/screens/product_detail_screen.dart';
 
@@ -17,8 +17,8 @@ class ProductItem extends StatelessWidget {
     // final product = Get.find<Product>();
     // final product = Provider.of<Product>(context,
     //     listen: false); //won't listen to notifications
-    final cart = Get.find<Cart>();
-    final authData = Get.find<Auth>();
+    final cart = Get.find<CartController>();
+    final authData = Get.find<AuthController>();
 
     // final cart = Provider.of<Cart>(context, listen: false);
     // final authData = Provider.of<Auth>(context, listen: false);

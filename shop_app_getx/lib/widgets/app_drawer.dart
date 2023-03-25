@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../screens/orders_screen.dart';
 import '../screens/user_products_screen.dart';
-import '../providers/auth.dart';
+import '../controllers/auth_controller.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -57,7 +57,7 @@ class AppDrawer extends StatelessWidget {
               // Navigator.of(context).pop();
               Get.toNamed('/');
               // Navigator.of(context).pushReplacementNamed('/');
-              Get.find<Auth>().logout();
+              Get.find<AuthController>().logout();
             },
           ),
         ],

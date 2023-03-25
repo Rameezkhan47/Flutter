@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import './cart.dart';
+import 'cart_controller.dart';
 import 'package:shop_app/models/http_exception.dart';
 
 class OrderItem {
@@ -20,12 +20,12 @@ class OrderItem {
   });
 }
 
-class Orders extends GetxController {
+class OrdersController extends GetxController {
   List<OrderItem> _orders = [];
   final String? authToken;
   final String? userId; 
 
-    Orders(this.authToken, this.userId, this._orders);
+    OrdersController(this.authToken, this.userId, this._orders);
 
 
   List<OrderItem> get orders {
@@ -108,7 +108,7 @@ class Orders extends GetxController {
 
   Future<void> deleteOrder(String id) async {
     final url =
-        'https://flutter-41360-default-rtdb.firebaseio.com/orders/$id.json?auth=$authToken';
+        'https://flutter-41360-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken';
     final existingOrderIndex = _orders.indexWhere((order) => order.id == id);
     OrderItem? existingOrder = _orders[existingOrderIndex];
 

@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/product.dart';
-import '../providers/products.dart';
+import '../models/product.dart';
+import '../controllers/products_controller.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
@@ -46,7 +46,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     if (_isInit) {
       final productId = ModalRoute.of(context)?.settings.arguments;
       if (productId != null) {
-        _editedProduct = Get.find<Products>()
+        _editedProduct = Get.find<ProductsController>()
             .findById(productId as String);
         _initValues = {
           'title': _editedProduct.title,
@@ -94,11 +94,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _isLoading = true;
     });
     if (_editedProduct.id != null) {
-      await Get.find<Products>()
+      await Get.find<ProductsController>()
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
       try {
-       Get.find<Products>()
+       Get.find<ProductsController>()
             .addProduct(_editedProduct);
       } catch (e) {
         await Get.defaultDialog(

@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 import '../models/http_exception.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import '../constants.dart';
-import '../providers/auth.dart';
+import '../controllers/auth_controller.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -36,13 +36,12 @@ class _AuthScreenState extends State<AuthScreen> {
           KeyboardVisibilityBuilder(
             builder: (context, isKeyboardVisible) {
               return !isKeyboardVisible
-                  // ? Lottie.asset(
-                  //     'assets/shop.json',
-                  //     height: deviceSize.height * 0.3,
-                  //     width: deviceSize.width,
-                  //     fit: BoxFit.fill,
-                  //   )
-                  ? SizedBox(height: deviceSize.height * 0.05)
+                  ? Lottie.asset(
+                      'assets/shop.json',
+                      height: deviceSize.height * 0.3,
+                      width: deviceSize.width,
+                      fit: BoxFit.fill,
+                    )
                   : SizedBox(height: deviceSize.height * 0.05);
             },
           ),
@@ -105,7 +104,7 @@ class _AuthCardState extends State<AuthCard> {
     try {
       if (_authMode == AuthMode.Login) {
         // Log user in
-        await Get.find<Auth>().login(
+        await Get.find<AuthController>().login(
           _authData['email']!,
           _authData['password']!,
         );
@@ -115,7 +114,7 @@ class _AuthCardState extends State<AuthCard> {
         // );
       } else {
         // Sign user up
-        await Get.find<Auth>().signup(
+        await Get.find<AuthController>().signup(
           _authData['email']!,
           _authData['password']!,
         );

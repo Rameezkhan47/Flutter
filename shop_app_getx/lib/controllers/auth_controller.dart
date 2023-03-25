@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shop_app/models/http_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Auth extends GetxController {
+class AuthController extends GetxController {
   String? _token;
   DateTime? _expiryDate;
   String? _userId;

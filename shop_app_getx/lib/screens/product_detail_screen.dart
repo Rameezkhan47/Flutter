@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/products.dart';
+import '../controllers/products_controller.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   // final String title;
@@ -17,7 +17,7 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final productId =
         ModalRoute.of(context)?.settings.arguments as String; // is the id!
-    final loadedProduct = Get.find<Products>().findById(productId);
+    final loadedProduct = Get.find<ProductsController>().findById(productId);
     return Scaffold(
       // appBar: AppBar(
       //   title: Text(loadedProduct.title),

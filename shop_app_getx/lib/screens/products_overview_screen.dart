@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import '../screens/cart_screen.dart';
 
 import '../widgets/products_grid.dart';
-import '../providers/cart.dart';
+import '../controllers/cart_controller.dart';
 import '../widgets//badge.dart';
 import '../widgets/app_drawer.dart';
-import '../providers/products.dart';
+import '../controllers/products_controller.dart';
 
 enum FilterOptions {
   // ignore: constant_identifier_names
@@ -55,8 +55,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                     const PopupMenuItem(
                         value: FilterOptions.All, child: Text('All'))
                   ]),
-          GetBuilder<Cart>(
-            init: Cart(),
+          GetBuilder<CartController>(
+            init: CartController(),
             builder: (cartController) => CartBadge(
               value: cartController.itemCount.toString(),
             
@@ -78,7 +78,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       appBar: appBar,
       body: FutureBuilder(
         future:
-        Get.find<Products>().fetchAndSetProducts(),
+        Get.find<ProductsController>().fetchAndSetProducts(),
             // Provider.of<Products>(context, listen: false).fetchAndSetProducts(),
         builder: (context, snapshot) {
 
@@ -96,14 +96,13 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             );
           } 
           else {
-            return Container(
-              height: deviceSize.height*1,
-              // height: (mediaQuery.size.height -
-              //     appBar.preferredSize.height -
-              //     mediaQuery.padding.top) *
-              // 1,
-              padding: const EdgeInsets.all(15),
-              child: ProductsGrid(_showOnlyFavorites));
+            return GetBuilder<ProductsController>(
+              builder: (_) {
+                return Container(
+                  padding: const EdgeInsets.all(15),
+                  child: ProductsGrid(_showOnlyFavorites));
+              }
+            );
           }
         },
       ),

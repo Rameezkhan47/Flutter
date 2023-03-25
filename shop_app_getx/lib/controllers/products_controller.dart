@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shop_app/models/http_exception.dart';
 
-import './product.dart';
+import '../models/product.dart';
 
-class Products extends GetxController {
+class ProductsController extends GetxController {
   //mixin with ChangeNotifier that gives us access to nethod update()
   // ignore: prefer_final_fields
   
@@ -16,7 +16,7 @@ class Products extends GetxController {
   final String? userId;
   final String? authToken;
 
-  Products(this.authToken, this.userId, this._items);
+  ProductsController(this.authToken, this.userId, this._items);
 
   List<Product> get items {
     return [..._items];
