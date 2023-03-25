@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/product.dart';
 
 import '../providers/products.dart';
 import './product_item.dart';
@@ -11,9 +13,10 @@ class ProductsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<Products>(context);
+    final productsData = Get.find<Products>();
+    // final productsData = Provider.of<Products>(context);
     final products = showFavs?productsData.favoriteItems:productsData.items;
-
+    
 
     return RefreshIndicator(
       onRefresh: (){return productsData.fetchAndSetProducts();},
@@ -23,12 +26,7 @@ class ProductsGrid extends StatelessWidget {
               childAspectRatio: 7 / 8,
               crossAxisSpacing: 12,
               mainAxisSpacing: 10),
-          itemBuilder: (context, index) => ChangeNotifierProvider.value(
-                value: products[index], //Product()
-                // ignore: prefer_const_constructors
-                child:  ProductItem(),
-                
-              ),
+          itemBuilder: (context, index) =>  ProductItem(product: products[index],),
               itemCount: products.length,
         
             
@@ -36,5 +34,3 @@ class ProductsGrid extends StatelessWidget {
     );
   }
 }
-
-
